@@ -1,0 +1,198 @@
+.update-chat-button {
+    background-color: #aaa;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 515px) { 
+    /*　画面サイズ 515pxpxまで適用　*/
+    .chat-box{
+        overflow-y:auto;
+        overflow-x: hidden;
+        width:100%;
+        height:300px;
+    }
+
+    .chat-icon {
+        margin: 0.3em 0em;
+        max-width: 32px;
+        max-height: 32px;
+        border-radius: 0.5em;	
+    }
+
+    .chat-content {
+        font-size: 0.9em;
+    }
+
+    .update-chat-button {
+        font-size: 26px;
+    }
+
+    .user-name {
+        font-size: 1.2em;
+    }
+
+    .submit-time {
+        text-align:right;
+    }
+
+    .col-1 {
+        padding-left: 0.2em;
+    }
+}
+
+@media screen and (min-width: 516px) and (max-width: 575.98px) { 
+    /*　画面サイズ 575.98pxまで適用　*/
+    .chat-box{
+        overflow-y:auto;
+        overflow-x: hidden;
+        width:100%;
+        height:300px;
+    }
+
+    .chat-icon {
+        margin: 0.3em 0em;
+        max-width: 42px;
+        max-height: 42px;
+        border-radius: 0.5em;	
+    }
+
+    .chat-content {
+        font-size: 0.9em;
+    }
+
+    .update-chat-button {
+        font-size: 26px;
+    }
+
+    .user-name {
+        font-size: 1.2em;
+    }
+
+    .submit-time {
+        text-align:right;
+    }
+
+    .col-1 {
+        padding-left: 0.4em;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) { 
+    /*　画面サイズ 576pxから767.98pxまで適用　*/
+    .chat-box{
+        overflow-y:auto;
+        overflow-x: hidden;
+        width:100%;
+        height:300px;
+    }
+
+    .chat-icon {
+        margin: 0.3em 0em;
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.5em;	
+    }
+
+    .chat-content {
+        font-size: 0.9em;
+    }
+
+    .update-chat-button {
+        font-size: 26px;
+    }
+
+    .user-name {
+        font-size: 1.2em;
+    }
+
+    .submit-time {
+        text-align:right;
+    }
+
+    .col-1 {
+        padding-left: 0.6em;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    /*　画面サイズ 768pxから991.98pxまで適用　*/
+    .chat-box {
+        overflow-y:auto;
+        overflow-x: hidden;
+        width:100%;
+        height:350px;
+    }
+
+    .chat-icon {
+        margin: 0.3em 0em;
+        max-width: 48px;
+        max-height: 48px;
+        border-radius: 0.5em;
+    }
+
+    .chat-content {
+        font-size: 1em;
+    }
+
+    .update-chat-button {
+        font-size: 26px;
+    }
+
+    .user-name {
+        font-size: 1.2em;
+    }
+
+    .submit-time {
+        text-align:right;
+    }
+
+    .col-1 {
+        padding-left: 0.7em;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    /*　画面サイズ 992px以上から適用　*/
+    .chat-box {
+        overflow-y:auto;
+        overflow-x: hidden;
+        width:100%;
+        height:600px;
+    }
+
+    .chat-icon {
+        margin: 0.4em 0em;
+        max-width: 64px;
+        max-height: 64px;
+        border-radius: 0.5em;	
+    }
+
+    .chat-content {
+        font-size: 1em;
+    }
+
+    .update-chat-button {
+        font-size: 26px;
+    }
+
+    .user-name {
+        font-size: 1.2em;
+    }
+
+    .submit-time {
+        text-align:right;
+    }
+
+    .col-1 {
+        padding-left: 0.9em;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    /*　画面サイズ 1200px以上から適用　*/
+    .col-1 {
+        padding-left: 1.3em;
+    }
+}

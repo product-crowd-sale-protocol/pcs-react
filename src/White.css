@@ -1,0 +1,49 @@
+.white-mode {
+    background-color: white;
+    color: black;
+    font-family: arial, sans-serif;
+}
+
+.white-mode .border-special {
+    border: 2px solid #6496e2;
+    border-radius: 10px;
+    position:relative;
+    background-color: rgba(239, 254, 253, 0.5);
+}
+
+.white-mode .border-special:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -0.12rem;
+    left: 5%;
+    height: 2px;
+    width: 90%;
+	background: linear-gradient(100deg, #6496e2 0%, #80e2dc 50%, #6496e2 100%);
+}
+
+.white-mode .border-special:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    height: 2px;
+    width: 90%;
+	background: linear-gradient(100deg, #6496e2 0%, #80e2dc 50%, #6496e2 100%);
+}
+
+.white-mode .btn-special {
+    border: 2px solid #4849a1;
+    border-image: linear-gradient(90deg, #80dbe2 0%, #518bbb 50%, #4849a1 100%);
+    border-image-slice: 1;
+    padding: 4px 10px;
+    background-color: rgba(239, 254, 253, 0.5);
+}
+
+.white-mode .btn-special:active{
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*下に動く*/
+  border-bottom: none;/*線を消す*/
+}

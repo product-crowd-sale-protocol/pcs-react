@@ -1,0 +1,194 @@
+
+@media screen and (max-width: 329.98px) { 
+    /*　画面サイズ 329.98pxまで適用　*/
+    .contributor {
+        padding: 0em 0em 0em 1.4em;	
+    }
+
+    .contributor > img {
+        max-width: 32px;
+        max-height: 32px;
+        border-radius: 0.3em;	
+    }
+
+    .contents {
+        padding-right: 1px;
+        padding-left: 28px;
+    }
+
+    .contents .btn-special {
+        padding: 0.6em 2.3em;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .share {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .share .btn-special {
+        font-size: 0.3em;
+        padding: 0.65em 0.7em 0.65em 0.7em;	
+    }
+}
+
+@media screen and (min-width: 330px) and (max-width: 575.98px) { 
+    .contributor {
+        padding: 0em 0em 0em 1em;	
+    }
+
+    .contributor > img {
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.3em;	
+    }
+
+    .contents {
+        padding-right: 1px;
+        padding-left: 28px;
+    }
+
+    .contents .btn-special {
+        padding: 0.65em 2em;
+        width: 95%;
+        cursor: pointer;
+    }
+
+    .share {
+        padding-right: 10px;
+        padding-left: 0px;
+    }
+
+    .share .btn-special {
+        width: 100%;
+        padding: 0.65em 0em;	
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    .contributor {
+        padding: 0em 0em 0em 1em;	
+    }
+
+    .contributor > img {
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.3em;	
+    }
+
+    .contents {
+        padding-right: 1px;
+        padding-left: 25px;
+    }
+
+    .contents .btn-special {
+        padding: 0.7em 2.7em;
+        width: 95%;
+        cursor: pointer;
+    }
+
+    .share {
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    .share .btn-special {
+        padding: 0.7em 1em;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    .contributor {
+        padding: 0em 0em 0em 0.8em;	
+    }
+
+    .contributor > img {
+        max-width: 40px;
+        max-height: 40px;
+        border-radius: 0.4em;	
+    }
+
+    .contents {
+        padding-right: 5px;
+        padding-left: 2px;
+    }
+
+    .contents .btn-special {
+        padding: 0.7em 3.5em;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .share {
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    .share .btn-special {
+        padding: 0.7em 0.6em;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .contributor {
+        padding: 0em 1em 0em 2.7em;	
+    }
+
+    .contributor > img {
+        max-width: 42px;
+        max-height: 42px;
+        border-radius: 0.4em;	
+    }
+
+    .contents {
+        padding-right: 10px;
+        padding-left: 15px;
+    }
+
+    .contents .btn-special {
+        padding: 0.7em 4em;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .share {
+        padding-right: 20px;
+        padding-left: 0px;
+    }
+
+    .share .btn-special {
+        width: 100%;
+        padding: 0.7em 0.8em;
+    }
+}
+
+.contents .btn-special.red {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_red.png");
+}
+
+.contents .btn-special.yellow {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_yellow.png");
+}
+
+.contents .btn-special.green {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_green.png");
+}
+
+.contents .btn-special.lblue {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_lblue.png");
+}
+
+.contents .btn-special.dblue {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_dblue.png");
+}
+
+.contents .btn-special.purple {
+    /* from: http://bg-patterns.com */
+    background-image: url("../../../img/content_purple.png");
+}

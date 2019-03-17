@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (max-width: 329.98px) { 
+    /*　画面サイズ 329.98pxまで適用　*/
+    .entrance > .container {
+        padding: 0px 30px 0px;
+    }
+    .setting > .container {
+        padding: 0px 30px 0px;
+    }
+    body {
+        font-size: 11px;
+    }
+
+    h2 {
+        font-size: 1.05rem;
+    }
+
+    h3 {
+        font-size: 0.95rem;
+    }
+
+    h4 {
+        font-size: 0.80rem;
+    }
+
+    h5 {
+        font-size: 0.75rem;
+    }
+
+    .menu-icon {
+        margin-right: 2px;
+        margin-bottom: 2px;
+        max-width: 20px;
+        max-height: 20px;
+    }
+}
+
+@media screen and (min-width: 330px) and (max-width: 575.98px) { 
+    /*　画面サイズ 575.98pxまで適用　*/
+    .entrance > .container {
+        padding: 0px 30px 0px;
+    }
+    .setting > .container {
+        padding: 0px 30px 0px;
+    }
+    body {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    h4 {
+        font-size: 0.95rem;
+    }
+
+    h5 {
+        font-size: 0.8rem;
+    }
+
+    .menu-icon {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        max-width: 22px;
+        max-height: 22px;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    /*　画面サイズ 576pxから767.98pxまで適用　*/
+    .entrance > .container {
+        padding: 0px 30px 0px;
+    }
+    .setting > .container {
+        padding: 0px 30px 0px;
+    }
+    body {
+        font-size: 12.5px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    h4 {
+        font-size: 1.0rem;
+    }
+
+    h5 {
+        font-size: 0.9rem;
+    }
+
+    .menu-icon {
+        margin-right: 5px;
+        margin-bottom: 7px;
+        max-width: 28px;
+        max-height: 28px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    /*　画面サイズ 768pxから991.98pxまで適用　*/
+    .entrance > .container {
+        padding: 0px 30px 0px;
+    }
+    .setting > .container {
+        padding: 0px 30px 0px;
+    }
+    body {
+        font-size: 13px;
+    }
+
+    h2 {
+        font-size: 1.45rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+
+    h5 {
+        font-size: 0.95rem;
+    }
+
+    .menu-icon {
+        margin-right: 5px;
+        margin-bottom: 7px;
+        max-width: 30px;
+        max-height: 30px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    /*　画面サイズ 992px以上から適用　*/
+    .entrance > .container {
+        padding: 0px 30px 0px;
+    }
+    .setting > .container {
+        padding: 0px 30px 0px;
+    }
+    body {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1.15rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    .menu-icon {
+        margin-right: 8px;
+        margin-bottom: 9px;
+        max-width: 32px;
+        max-height: 32px;
+    }
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table > tbody td {
+    border-top: 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table > tbody th {
+    border-top: 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table > thead tr {
+    text-align: center;
+}
+
+.table > tbody tr {
+    text-align: right;
+}
+
+#setting-icon {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}

@@ -1,0 +1,15 @@
+.normal-shadow {
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+}
+
+/* .line-red .line {
+    fill: none;    
+    stroke: #e96553;
+    stroke-width: 2.5;
+}
+
+.line-blue .line {
+    fill: none;    
+    stroke: #12bde7;
+    stroke-width: 2.5;
+} */

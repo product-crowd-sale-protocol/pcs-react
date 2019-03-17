@@ -1,0 +1,53 @@
+
+
+/* エントランス全体を管理するCSS */
+@media screen and (max-width: 329.98px) { 
+    /*　画面サイズ 329.98pxまで適用　*/
+    .icon {
+        margin: 0.1em;
+        max-width: 28px;
+        max-height: 28px;
+        border-radius: 0.2em;
+    }
+}
+
+@media screen and (min-width: 330px) and (max-width: 575.98px) { 
+    /*　画面サイズ 575.98pxまで適用　*/
+    .icon {
+        margin: 0.1em;
+        max-width: 32px;
+        max-height: 32px;
+        border-radius: 0.2em;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    /*　画面サイズ 576pxから767.98pxまで適用　*/
+    .icon {
+        margin: 0.2em;
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.2em;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    /*　画面サイズ 768pxから991.98pxまで適用　*/
+    .icon {
+        margin: 0.2em;
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.2em;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    /*　画面サイズ 992pxから適用　*/
+    .icon {
+        margin: 0.2em;
+        max-width: 36px;
+        max-height: 36px;
+        border-radius: 0.2em;
+    }
+}
+

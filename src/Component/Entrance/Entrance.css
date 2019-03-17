@@ -1,0 +1,211 @@
+/* エントランス全体を管理するCSS */
+@media screen and (max-width: 329.98px) { 
+    /*　画面サイズ 329.98pxまで適用　*/
+    .community {
+        /* コミュニティ全体 */
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .community .name {
+        /* コミュニティの名前 */
+        padding-top: 0.5em;
+    }
+
+    .community-description {
+        /* コミュニティの説明・symbol・人数... */
+        font-size: 0.75em;
+        margin-top: 0.6em;
+        margin-bottom: 0.7em;
+    }
+
+    .community-description > img {
+        /* コミュニティのアイコン */
+        margin-right: 0.5em;
+        height: 60px;
+        width: 60px;
+    }
+
+    .manager-icon {
+        /* 運営のアイコン */
+        margin-top: 0.4em;
+        margin-right: 0.3em;
+        height: 28px;
+        width: 28px;
+        border-radius: 0.2em;
+    }
+
+    #hot-topic button {
+        /* Hot Topicのリンクボタン */
+        font-size: 0.85em;
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 330px) and (max-width: 575.98px) { 
+    /*　画面サイズ 575.98pxまで適用　*/
+    .community {
+        /* コミュニティ全体 */
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .community .name {
+        /* コミュニティの名前 */
+        padding-top: 0.4em;
+    }
+
+    .community-description {
+        /* コミュニティの説明・symbol・人数... */
+        font-size: 0.85em;
+        margin-top: 0.6em;
+        margin-bottom: 0.7em;
+    }
+
+    .community-description > img {
+        /* コミュニティのアイコン */
+        margin-right: 0.5em;
+        height: 65px;
+        width: 65px;
+    }
+
+    .manager-icon {
+        /* 運営のアイコン */
+        margin-top: 0.4em;
+        margin-right: 0.3em;
+        height: 32px;
+        width: 32px;
+        border-radius: 0.2em;
+    }
+
+    #hot-topic button {
+        /* Hot Topicのリンクボタン */
+        font-size: 0.9em;
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    /*　画面サイズ 576pxから767.98pxまで適用　*/
+    .community {
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .community .name {
+        padding-top: 0.5em;
+    }
+
+    .community-description {
+        margin-top: 0.4em;
+        margin-bottom: 0.4em;
+    }
+
+    .community-description > img {
+        margin-right: 0.5em;
+        height: 80px;
+        width: 80px;
+    }
+
+    .manager-icon {
+        margin-top: 0.4em;
+        margin-right: 0.5em;
+        height: 38px;
+        width: 38px;
+        border-radius: 0.2em;
+    }
+
+    #hot-topic button {
+        /* Hot Topicのリンクボタン */
+        font-size: 0.95em;
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    /*　画面サイズ 768pxから991.98pxまで適用　*/
+    .community {
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .community .name {
+        padding-top: 0.6em;
+    }
+
+    .community-description {
+        margin-top: 0.7em;
+        margin-bottom: 0.7em;
+    }
+
+    .community-description > img {
+        margin-right: 0.5em;
+        height: 85px;
+        width: 85px;
+    }
+
+    .manager-icon {
+        margin-top: 0.4em;
+        margin-right: 0.5em;
+        height: 40px;
+        width: 40px;
+        border-radius: 0.2em;
+    }
+
+    #hot-topic button {
+        /* Hot Topicのリンクボタン */
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    /*　画面サイズ 992pxから適用　*/
+    .community {
+        padding-bottom: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .community .name {
+        padding-top: 0.6em;
+    }
+
+    .community-description {
+        margin-top: 0.7em;
+        margin-bottom: 0.7em;
+    }
+
+    .community-description > img {
+        margin-right: 0.5em;
+        height: 90px;
+        width: 90px;
+    }
+
+    .manager-icon {
+        margin-top: 0.4em;
+        margin-right: 0.5em;
+        height: 42px;
+        width: 42px;
+        border-radius: 0.2em;
+    }
+
+    #hot-topic button {
+        /* Hot Topicのリンクボタン */
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+

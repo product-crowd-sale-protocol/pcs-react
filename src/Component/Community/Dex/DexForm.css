@@ -1,0 +1,33 @@
+.nav-link {
+    cursor: pointer
+}
+
+@media screen and (max-width: 575.98px) { 
+    /*　画面サイズ 575.98pxまで適用　*/
+    #dex-form {
+        margin-bottom: 0.5em;
+        padding-top: 0.3em;
+        padding-bottom: 0.5em;
+        border-bottom: solid 1px #ffffff;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    /*　画面サイズ 545pxから960pxまで適用　*/
+    #dex-form {
+        margin-bottom: 0.5em;
+        padding-top: 0.3em;
+        padding-bottom: 0.5em;
+        border-bottom: solid 1px #ffffff;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991.98px) {
+    /*　画面サイズ 768pxから991.98pxまで適用　*/
+
+}
+
+@media screen and (min-width: 992px) {
+    /*　画面サイズ 993px以上から適用　*/
+
+}
