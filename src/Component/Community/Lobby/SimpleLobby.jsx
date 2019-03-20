@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Col } from "reactstrap";
 import OfferForm from "./OfferForm";
-import OfferList from "./OfferList";
 import History from "../../History";
 import "./Lobby.css";
 
@@ -21,11 +20,6 @@ class SimpleLobby extends Component {
                 </Col>
 
                 <OfferForm />
-
-                <Col xs="12" className="py-3 my-3 border-special">
-                    <h4>現在のOfferの一覧</h4>
-                    <OfferList />
-                </Col>
             </React.Fragment>
         );
     }

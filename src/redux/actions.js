@@ -39,6 +39,13 @@ export function setContents(newState) {
     });
 }
 
+export function setOffers(symbol, offers) {
+    return ({
+        type: "SET_OFFERS",
+        symbol, offers
+    });
+}
+
 export function switchSetting() {
     return ({
         type: "SWITCH_SETTING"

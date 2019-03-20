@@ -14,6 +14,7 @@ class Password extends Component {
         
         this.state = {
             collapse: false,
+            locked: false,
             symbol: this.props.symbol,
             nftId: this.props.id,
             passWord: ""
@@ -37,37 +38,37 @@ class Password extends Component {
 
     // パスワードを変更する
     async refreshKey() {
+        
+        // 連打されないようにロックする
+        this.setState({
+            locked: true
+        });
+
         const symbol = this.state.symbol;
         const subsig = new SubSig(symbol);
+        const newPassWord = this.state.passWord;
 
         // トークンIDを用いてEOSからトークンの所有者及び、subsig公開鍵を取得する
         const nftId = this.state.nftId;
         const { account, subkey } = await subsig.getEOSAuth(nftId);
-
-        const newPassWord = this.state.passWord;
+        // またパスワードとIDから新しいキーペアを作成
         const { privateKey, publicKey } = await subsig.genKeyPair(nftId, newPassWord);
 
         // パスワードから生成したsubkeyが一致した場合、つまり正しいパスワードの場合はパスワードを復元する
         if (publicKey === subkey) {
-            const authority = {
-                id: nftId,
-                privateKey: privateKey
-            };
-            localStorage.setItem(symbol, JSON.stringify(authority));
+            subsig.setLocalAuth(nftId, privateKey); // ローカルストレージに保存
 
             this.setState({
                 collapse: false,
+                locked: false,
                 symbol: "",
                 nftId: "",
                 passWord: ""
             });
-
             this.resetReduxAuthority();
 
             return window.alert("秘密鍵の復元に成功しました。");
         }
-
-        // 以後はパスワードの再設定
 
         // Scatterのアカウント名と、トークンのOwnerが一致するかを確認する
         let authority = false;
@@ -75,36 +76,36 @@ class Password extends Component {
             await scatter.login();
             authority = account === scatter.account.name;
         } catch (e) {
+            // Scatterのログインに失敗
             authority = false;
         }
 
-        // 一致するとき、つまりトークンのオーナーであることが確認できた
-        if (authority) {
-            const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
-
-            try {
+        try {
+            if (authority) {
+                // ユーザーのScatterでrefreshKeyを起こす
                 const actObj = {
-                    "contractName": code,
+                    "contractName": process.env.REACT_APP_CONTRACT_ACCOUNT,
                     "actionName": "refleshkey",
                     "params": [symbol, nftId, publicKey]
                 };
                 await scatter.action(actObj);
-                const content = {
-                    id: nftId,
-                    privateKey: privateKey
-                };
-                localStorage.setItem(symbol, JSON.stringify(content));
+
+                // 成功
+                subsig.setLocalAuth(nftId, privateKey);
                 this.resetReduxAuthority();
+                this.setState({
+                    collapse: false,
+                    locked: false,
+                    symbol: "",
+                    nftId: "",
+                    passWord: ""
+                });
                 return window.alert("パスワードの変更に成功しました。");
-            } catch (error) {
-                console.error(error);
-                return window.alert(error);
-            }
-        } else if (account === process.env.REACT_APP_EOS_ACCOUNT) {
-            // アカウント名が代理人のアカウント名と等しい時
-            try {
+
+            } else if (account === process.env.REACT_APP_EOS_ACCOUNT) {
+                // 代理人を通してEOSのrefreshKeyを起こす
                 const oldAuthority = subsig.getLocalAuth();
-                const message = Math.floor(Number(new Date()) / (24 * 60 * 60 * 1000)).toString();
+                const message = SubSig.getSubSigMessage();
 
                 // デジタル署名
                 const old_signature = ecc.sign(message, oldAuthority.privateKey);
@@ -122,18 +123,31 @@ class Password extends Component {
 
                 const response = await Aws.sendAgentTransaction(apiObj);
                 await scatter.eosJS.pushTransaction(response.transaction);
-
-                const content = {
-                    id: nftId,
-                    privateKey: privateKey
-                };
-                localStorage.setItem(symbol, JSON.stringify(content));
+                
+                // 成功
+                subsig.setLocalAuth(nftId, privateKey);
                 this.resetReduxAuthority();
-                window.alert("パスワードの変更に成功しました。");
-            } catch (error) {
-                console.error(error);
-                return window.alert("パスワードの変更に失敗しました。");
+                this.setState({
+                    collapse: false,
+                    locked: false,
+                    symbol: "",
+                    nftId: "",
+                    passWord: ""
+                });
+                return window.alert("パスワードの変更に成功しました。");
+
+            } else {
+                this.setState({
+                    locked: false
+                });
+                return window.alert("トークンの所有権が確認できません。");
             }
+        } catch (error) {
+            console.error(error);
+            this.setState({
+                locked: false
+            });
+            return window.alert("パスワードの変更に失敗しました。");
         }
     }
 
@@ -175,7 +189,7 @@ class Password extends Component {
                             <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="新しいパスワード" />
                         </FormGroup>
 
-                        <Button onClick={this.refreshKey}>変更</Button>
+                        <Button onClick={this.refreshKey} disabled={this.state.locked}>変更</Button>
                     </Form>
                 </Collapse>
             </Col>

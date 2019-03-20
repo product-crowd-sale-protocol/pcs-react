@@ -117,11 +117,22 @@ class AcceptForm extends Component {
     }
 
     render() {
+        const offerList = (this.props.offerList[this.props.community.symbol]) ? this.props.offerList[this.props.community.symbol] : []; 
         return (
             <Form>
                 <FormGroup>
                     <Label for="offerId">オファーID</Label>
-                    <Input type="number" name="offerId" onChange={this.handleChange} value={this.state.offerId} placeholder="offerId" onKeyPress={this.handleKeyPress} />
+                    <Input type="select" name="offerId" onChange={this.handleChange} value={this.state.offerId} onKeyPress={this.handleKeyPress} >
+                        <option value=""></option>
+                        {
+                            offerList.map((offer) => {
+                                const id = offer.id;
+                                return (
+                                    <option value={id} key={id}>{id}</option>
+                                )
+                            })
+                        }
+                    </Input>
                 </FormGroup>
 
                 <button type="button" onClick={this.accept} className="btn-special mx-1">
@@ -140,7 +151,8 @@ const mapStateToProps = (state) => {
     return {
         community: state.community,
         accountName: state.authority.accountName,
-        nftId: state.authority.nftId
+        nftId: state.authority.nftId,
+        offerList: state.offers
     };
 };
 

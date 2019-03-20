@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 import { connect } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
-import { switchCommunityContents } from "../../redux/actions"
+import { switchCommunityContents, switchSetting } from "../../redux/actions"
 
 import home from "../../img/home.png";
 import lobby from "../../img/chat.png";
@@ -16,6 +16,7 @@ class Header extends Component {
         this.switchHeader = this.switchHeader.bind(this);
         this.switchLobby = this.switchLobby.bind(this);
         this.switchDex = this.switchDex.bind(this);
+        this.switchSetting = this.switchSetting.bind(this);
     }
 
     // Redux関数
@@ -26,10 +27,13 @@ class Header extends Component {
     switchDex() {
         this.props.dispatch(switchCommunityContents("dex"));
     }
-
+    // Redux関数
+    switchSetting() {
+        this.props.dispatch(switchSetting());
+    }
     // ロビー内にいるときと、そうでないときでヘッダーで表示する内容を入れ替えるための関数
     switchHeader(bool) {
-        if (bool) {
+        if (bool && !this.props.setting) {
             // ロビー内にいるとき
             return (
                 <Row className="justify-content-between">
@@ -43,7 +47,7 @@ class Header extends Component {
             return (
                 <Row>
                     <Col xs="12">
-                        <Link to="/" style={{ textDecoration: 'none' }} className="special-color">Ryodan</Link>
+                        <Link to="/" style={{ textDecoration: 'none' }} className="special-color" onClick={this.switchSetting}>Ryodan</Link>
                     </Col>
                 </Row>
             );
@@ -64,7 +68,8 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        symbol: state.community.symbol
+        symbol: state.community.symbol,
+        setting: state.setting.setting,
     };
 };
 

@@ -3,6 +3,7 @@ import { getTokenInfo } from "./EosHttpApi";
 import ecc from "eosjs-ecc"; 
 
 const AWS_API_URL = process.env.REACT_APP_AWS_API_URL;
+const NEW_AWS_API_URL = process.env.REACT_APP_NEW_AWS_API_URL;
 
 // Awsサーバーからデータを取ってくる処理をまとめたもの
 export default class Aws {
@@ -278,21 +279,9 @@ export default class Aws {
         const tail3 = password.slice(-3); // 末尾3文字
         const seedHash = ecc.sha256(tail3);
 
-        const apiUrl = "";
-        const apiObj = {
-            "hash": seedHash,
-            "symbol": symbol,
-            "nftId": nftId
-        };
-        const req = {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            body: JSON.stringify(apiObj)
-        };
-
-        const salt = await (await fetch(apiUrl, req)).json();
+        const apiUrl = NEW_AWS_API_URL + `?tokenId=${nftId}&hash=${seedHash}&symbol=${symbol}`;
+        const response = await (await fetch(apiUrl, { method: "GET", mode: "cors" })).json();
+        const salt = response.body;
         return salt;
     }
 }

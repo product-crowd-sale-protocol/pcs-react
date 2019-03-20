@@ -84,8 +84,8 @@ export class Scatter {
      * logout from app 
      */
     async logout() {
-        const res = this.scatter.logout();
-        return res;
+        const res = await this.scatter.logout();
+        return res; // if logout are completed, true
     }
 
     /**

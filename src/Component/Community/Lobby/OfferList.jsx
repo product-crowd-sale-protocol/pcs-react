@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { setOffers } from "../../../redux/actions";
 import { Table } from "reactstrap";
 import { getTable } from "../../../scripts/EosHttpApi";
 
@@ -10,18 +11,14 @@ class OfferList extends Component {
         super(props);
 
         this.timer = null;
-        this.state = {
-            offerList: []
-        };
-
-        this.fetch = this.fetch.bind(this);
+        this.getOfferList = this.getOfferList.bind(this);
     }
 
     componentDidMount() {
-        this.fetch();
+        this.getOfferList();
 
         this.timer = setInterval(() => {
-            this.fetch();
+            this.getOfferList();
         }, 3000);
     }
 
@@ -29,7 +26,7 @@ class OfferList extends Component {
         clearInterval(this.timer);
     }
 
-    async fetch() {
+    async getOfferList() {
         let offerList = [];
 
         const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
@@ -40,14 +37,12 @@ class OfferList extends Component {
             "limit": 100
         };
         const response = await getTable(query);
-        offerList = response.rows;        
-
-        this.setState({
-            offerList
-        });
+        offerList = response.rows;
+        this.props.dispatch(setOffers(this.props.community.symbol, offerList));     
     }
 
     render() {
+        const offerList = (this.props.offerList[this.props.community.symbol]) ? this.props.offerList[this.props.community.symbol] : []; 
         return (
             <div className="overflow-auto">
                 <Table size="sm">
@@ -61,7 +56,7 @@ class OfferList extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.offerList.map((offer) => {
+                            offerList.map((offer) => {
                                 const eosPrice = Number(offer.price.replace(/EOS/g, "")); // EOS換算
                                 const url = "http://" + offer.uri;
                                 return (
@@ -84,7 +79,8 @@ class OfferList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        community: state.community
+        community: state.community,
+        offerList: state.offers
     };
 };
 

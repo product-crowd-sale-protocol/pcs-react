@@ -9,6 +9,7 @@ import Transfer from "./Transfer";
 import Law from "./Law";
 import Throw from "./Throw";
 import Contract from "./Contract";
+import Logout from "./Logout";
 
 class Setting extends Component {
     render() {
@@ -28,6 +29,8 @@ class Setting extends Component {
                         <Token />
 
                         <Contract />
+
+                        <Logout />
 
                         <UpdateProfile symbol={symbol} id={nftId} />
 

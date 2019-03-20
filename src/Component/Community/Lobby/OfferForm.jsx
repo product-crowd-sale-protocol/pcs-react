@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Col, Collapse, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import scatter, { Scatter } from "../../../scripts/Scatter";
+import OfferList from "./OfferList";
 
 // icon
 import darkModeOfferIcon from "../../../img/offer32white.png";
 import whiteModeOfferIcon from "../../../img/offer32blue.png";
-
-
 
 class OfferForm extends Component {
     constructor(props) {
@@ -166,10 +165,6 @@ class OfferForm extends Component {
     }
 
     render() {
-        // const payment_step = (this.state.method === "eos") ? "0.0001" : "1";
-        // const payment_amount = (this.state.method === "eos")
-        //     ? Math.floor(this.state.amount * 10000) / 10000
-        //     : Math.floor(this.state.amount);
         const payment_step = 1;
         const payment_amount = this.state.amount;
         return (
@@ -183,6 +178,12 @@ class OfferForm extends Component {
                 </div>
 
                 <Collapse isOpen={this.state.collapse}>
+
+                    <div className="my-3">
+                        現在のOffer一覧
+                        <OfferList />
+                    </div>
+
                     <Form>
                         <FormGroup>
                             <Label for="url">紹介記事URL</Label>

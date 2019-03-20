@@ -49,7 +49,8 @@ class Sell extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
         const authority = account === scatter.account.name; // トークン所有権の確認
 
@@ -95,7 +96,8 @@ class Sell extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
         const authority = account === scatter.account.name; // トークン所有権の確認
 

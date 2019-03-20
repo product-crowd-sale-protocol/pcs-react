@@ -95,13 +95,27 @@ export function chat(state = {
     }
 }
 
-// チャット情報を管理するreducer
+// コンテンツ情報を管理するreducer
 export function contents(state = {
 }, action) {
     switch (action.type) {
         case "SET_CONTENTS":
             return Object.assign({}, state, {
                 [action.newState.symbol]: action.newState.contents
+            });
+
+        default:
+            return state;
+    }
+}
+
+// Offer情報を管理するreducer
+export function offers(state = {
+}, action) {
+    switch (action.type) {
+        case "SET_OFFERS":
+            return Object.assign({}, state, {
+                [action.symbol]: action.offers
             });
 
         default:
@@ -196,6 +210,7 @@ export default combineReducers({
     authority,
     chat,
     contents,
+    offers,
     setting,
     profile,
     price,

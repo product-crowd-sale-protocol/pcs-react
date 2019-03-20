@@ -60,14 +60,13 @@ class Order extends Component {
         const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
         const dexSymbol = this.props.community.symbol; // DEXがあるコミュニティのSymbol
         const authoritySymbol = this.props.authority.symbol; // 最終ログインしたコミュニティのSymbol
-        let authorityName = this.props.authority.accountName; // 最終ログインしたコミュニティの本当のアカウント名
+        let authorityName = this.props.authority.accountName; // 最終ログインしたコミュニティのアカウント名
 
         if (authorityName === code) {
             // 売り注文中
             const subsig = new SubSig(authoritySymbol); // 最終ログインしたコミュニティのSubsigインスタンス
             authorityName = await subsig.getSeller(this.props.authority.nftId); // 最終ログインしたコミュニティの本当のアカウント名
         }
-        console.log("authorityName", authorityName);
 
         if ((authoritySymbol) && (authorityName)) {
             if (dexSymbol === authoritySymbol) {
@@ -156,7 +155,8 @@ class Order extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
 
         if (scatter.account.name !== orderCreater) {
@@ -213,7 +213,8 @@ class Order extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
 
         if (scatter.account.name !== orderCreater) {

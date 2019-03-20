@@ -10,6 +10,7 @@ class UpdateProfile extends Component {
 
         this.state = {
             collapse: false,
+            locked: false,
             symbol: this.props.symbol,
             nftId: this.props.id,
             iconUrl: "",
@@ -33,6 +34,11 @@ class UpdateProfile extends Component {
 
     // アイコン更新する
     async updateProfile() {
+        // 連打されないようにロックする
+        this.setState({
+            locked: true
+        });
+
         const symbol = this.state.symbol;
         const nftId = this.state.nftId; // 変更を要求するトークン
         const iconUrl = this.state.iconUrl;
@@ -48,12 +54,16 @@ class UpdateProfile extends Component {
             alert("プロフィールを変更しました");
             this.setState({
                 collapse: false,
+                locked: false,
                 symbol: "",
                 nftId: 0,
                 iconUrl: "",
                 biography: ""
-            })
+            });
         } else {
+            this.setState({
+                locked: false
+            });
             alert("プロフィール変更に失敗しました");
         }
     }
@@ -92,7 +102,7 @@ class UpdateProfile extends Component {
                             <Input type="text" name="biography" onChange={this.handleChange} value={this.state.biography} placeholder="biography" />
                         </FormGroup>
 
-                        <Button onClick={this.updateProfile}>更新</Button>
+                        <Button onClick={this.updateProfile} disabled={this.state.locked}>更新</Button>
                     </Form>
                 </Collapse>
             </Col>

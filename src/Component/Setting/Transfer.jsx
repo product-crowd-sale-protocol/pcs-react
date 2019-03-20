@@ -11,6 +11,7 @@ class Transfer extends Component {
 
         this.state = {
             collapse: false,
+            locked: false,
             symbol: this.props.symbol,
             nftId: this.props.id,
             recipient: ""
@@ -33,6 +34,11 @@ class Transfer extends Component {
 
     // トークン送信する
     async transfer() {
+        // 連打されないようにロックする
+        this.setState({
+            locked: true
+        });
+
         const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
         const symbol = this.state.symbol;
         const subsig = new SubSig(symbol); // 必要なインスタンスの生成
@@ -64,17 +70,19 @@ class Transfer extends Component {
                 window.alert("トークンの送信に成功しました。");
             }
             catch (error) {
-                alert(error);
+                console.error(error);
+                this.setState({
+                    locked: false
+                });
                 return window.alert("ScatterもしくはEOSの内部エラーにより、トークンの送信に失敗しました。トークンの所有権には問題はありません。");
             }
-        }else if(account === process.env.REACT_APP_EOS_ACCOUNT){
+        } else if (account === process.env.REACT_APP_EOS_ACCOUNT) {
             // 代理人のトークンを所持しているとき
             const recipient = this.state.recipient;
             
             try {
                 const { privateKey } = subsig.getLocalAuth();
                 const message = Math.floor(Number(new Date()) / (24 * 60 * 60 * 1000)).toString();
-                // デジタル署名
                 const signature = ecc.sign(message, privateKey);
 
                 const apiObj = {
@@ -87,29 +95,35 @@ class Transfer extends Component {
                     "newSig":"null"
                 };
                 // 代理人にTxに署名してもらう
-                alert(recipient+"に送信を開始します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。")
+                alert(recipient+"に送信を開始します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。");
                 const response = await Aws.sendAgentTransaction(apiObj);
                 // 署名されたTxをネットワークにブロードキャストする
                 await scatter.eosJS.pushTransaction(response.transaction);
-
                 window.alert(`トークンの送信に成功しました`);
             }
             catch (error) {
                 console.error(error);
+                this.setState({
+                    locked: false
+                });
                 alert("代理人サーバーからトークンの送信が拒絶されました。次に出てくる文字を記録して下さい。");
                 return window.alert(error);
             } 
 
         } else {
+            this.setState({
+                locked: false
+            });
             return window.alert(`トークンの所有者であることが確認できません。\nこのトークンの現在の所有者は ${account} です。`);
         }
 
         this.setState({
             collapse: false,
+            locked: false,
             symbol: "",
             nftId: "",
             recipient: ""
-        })
+        });
     }
 
     render() {
@@ -138,7 +152,7 @@ class Transfer extends Component {
                             <Input type="text" name="recipient" onChange={this.handleChange} value={this.state.recipient} placeholder="送信先" />
                         </FormGroup>
 
-                        <Button onClick={this.transfer}>送信</Button>
+                        <Button onClick={this.transfer} disabled={this.state.locked}>送信</Button>
                     </Form>
                 </Collapse>
             </Col>

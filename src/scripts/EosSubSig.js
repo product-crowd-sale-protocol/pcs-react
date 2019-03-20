@@ -21,7 +21,7 @@ export default class EosSubSig {
         return response;
     }
 
-    // ローカルストレージからSubsig秘密鍵を読み込む
+    // ローカルストレージからIDとSubsig秘密鍵を読み込む
     getLocalAuth() {
         let subSig = JSON.parse(localStorage.getItem(this.symbol));
         try {
@@ -32,6 +32,15 @@ export default class EosSubSig {
         catch {
             throw new Error("ローカルのSubsigキーの読み込みに失敗しました。");
         }
+    }
+
+    // ローカルストレージにIDとSubsig秘密鍵を保存する
+    setLocalAuth(id, privateKey) {
+        const authority = {
+            id: Number(id),
+            privateKey: privateKey
+        };
+        localStorage.setItem(this.symbol, JSON.stringify(authority));
     }
 
     // 指定したトークンのPublicKeyとownerアカウントを取得する

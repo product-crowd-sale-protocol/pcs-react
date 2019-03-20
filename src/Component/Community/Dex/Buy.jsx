@@ -39,7 +39,8 @@ class Buy extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
 
         try {
@@ -88,7 +89,8 @@ class Buy extends Component {
             await scatter.login();
         }
         catch (e) {
-            return window.alert(e);
+            console.error(e);
+            return window.alert("Scatterが確認できません。");
         }
 
         try {
