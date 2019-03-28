@@ -23,27 +23,8 @@ export function checkUint(num) {
     return re.test(num);
 }
 
-// 整数単位のタイムスタンプから時間表記に変更
-export function unix2time(unixInt) {
-    let dt = new Date(unixInt * 1000);
-    return dt.toLocaleString();
-}
-
 // タイムスタンプわかりやすくを表示する
 export function timestampLog(label) {
     return console.log(`${label}: `, Math.floor((new Date()).getTime() / 1000));
 }
 
-// 代理人のトークンか判定して、そうであるならSymbol@IDという文字列を返す
-export function isAgent(symbol, accountName, id) {
-    if ((accountName === process.env.REACT_APP_EOS_ACCOUNT) && (Number(id) !== 0)) {
-        return `${symbol}@${id}`
-    } else {
-        return accountName
-    }
-}
-
-export function prefixRedirect(url) {
-    const urlWithHttp = "http://" + (url).replace(/^http(s)?:\/\/|\/$/g, "");
-    return "http://www.toycash.io/proxy.html?redirect=" + urlWithHttp;
-}
