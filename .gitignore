@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 /lib
+/dist
 *.pyc
 .pnp.js
 

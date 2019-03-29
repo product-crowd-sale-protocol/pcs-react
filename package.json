@@ -4,7 +4,8 @@
   "description": "React Component for PCS App",
   "main": "lib/main.js",
   "scripts": {
-    "build": "babel src --out-dir lib"
+    "build:dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,11 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.3.4"
+    "@babel/runtime": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }
