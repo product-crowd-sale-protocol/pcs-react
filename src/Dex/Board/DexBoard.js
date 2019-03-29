@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Col, Row, Table } from 'reactstrap';
-import { asyncMap } from "../../../../scripts/Util";
+import { asyncMap } from "../../scripts/Util";
 import { getTable, EOS_NETWORK } from "pcs-js-eos";
 import "./DexBoard.css";
 import "../../style/App.css";

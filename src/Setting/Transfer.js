@@ -4,7 +4,7 @@ import { PcsClient, PcsSignature, EOS_NETWORK } from "pcs-js-eos";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
-import { THEME } from "../../scripts/Theme";
+import { THEME } from "../scripts/Theme";
 import { AGENT_NAME } from "../scripts/Config";
 
 class Transfer extends Component {

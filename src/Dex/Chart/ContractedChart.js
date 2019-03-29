@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 import LineChart from './LineChart';
 import { PcsSignature, EOS_NETWORK } from "pcs-js-eos"
-import Aws from "../../../../scripts/Aws";
+import Aws from "../../scripts/Aws";
 import { THEME } from "../../scripts/Theme";
 
 // Contracted Chart Componet

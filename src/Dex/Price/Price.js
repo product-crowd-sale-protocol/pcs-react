@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
-import Aws from "../../../../scripts/Aws";
+import Aws from "../../scripts/Aws";
 import { PcsSignature, EOS_NETWORK } from "pcs-js-eos";
 import "../../style/App.css";
 import "../../style/Dark.css";

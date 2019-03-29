@@ -6,7 +6,7 @@ import Scatter from "./Scatter";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
-import { THEME } from "../../scripts/Theme";
+import { THEME } from "../scripts/Theme";
 
 class Setting extends Component {
     render() {
