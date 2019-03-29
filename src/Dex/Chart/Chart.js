@@ -2,6 +2,9 @@
 
 import React, { Component } from "react";
 import ContracedChart from "./ContractedChart";
+import "../../style/App.css";
+import "../../style/Dark.css";
+import "../../style/White.css";
 
 // Chart Component
 class Chart extends Component {

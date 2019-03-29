@@ -7,6 +7,7 @@ import Price from "./Price/Price";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
+import { THEME } from "../scripts/Config";
 
 // LobbyのDexとPV部分を担うコンポーネント
 class Dex extends Component {

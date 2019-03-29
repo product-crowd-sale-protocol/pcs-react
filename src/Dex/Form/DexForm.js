@@ -7,6 +7,9 @@ import "./DexForm.css";
 import Buy from "./Buy";
 import Sell from "./Sell";
 import Order from "./Order";
+import "../../style/App.css";
+import "../../style/Dark.css";
+import "../../style/White.css";
 import { THEME } from "../../scripts/Theme";
 
 // LobbyのDexページの売買フォームを担う
