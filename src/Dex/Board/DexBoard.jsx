@@ -2,9 +2,14 @@
 
 import React, { Component } from "react";
 import { Col, Row, Table } from 'reactstrap';
-import "./DexBoard.css";
 import { asyncMap } from "../../../../scripts/Util";
 import { getTable, EOS_NETWORK } from "pcs-js-eos";
+import "./DexBoard.css";
+import "../../style/App.css";
+import "../../style/Dark.css";
+import "../../style/White.css";
+import { THEME } from "../../scripts/Theme";
+import { CONTRACT_NAME } from "../../scripts/Config";
 
 // Dexの板部分
 class Board extends Component {
@@ -43,7 +48,7 @@ class Board extends Component {
 
         // 買い板と売り板両方取得する
         await asyncMap(["buyorder", "sellorder"], async (buysell) => {
-            const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
+            const code = CONTRACT_NAME;
             const query = {
                 "code": code,
                 "scope": symbol,
@@ -68,8 +73,9 @@ class Board extends Component {
     }
 
     render() {
+        const theme = this.props.theme;
         return (
-            <Row>
+            <Row className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
                 <Col xs="6">
                     <strong className="dex-board-title text-danger">Buy</strong>
                     <Table size="sm" className="dex-board-header">

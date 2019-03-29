@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Collapse, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { PcsClient, PcsSignature, EOS_NETWORK } from "pcs-js-eos";
-import "../App.css";
-import "../Dark.css";
-import "../White.css";
+import "../style/App.css";
+import "../style/Dark.css";
+import "../style/White.css";
+import { THEME } from "../scripts/Theme";
+import { AGENT_NAME } from "../scripts/Config";
 
 class Password extends Component {
     constructor(props) {
@@ -56,7 +58,7 @@ class Password extends Component {
         this.lockBtn();
 
         let network = EOS_NETWORK.kylin.asia;
-        let pcs = new PcsClient(network, process.env.REACT_APP_APP_NAME);
+        let pcs = new PcsClient(network, this.props.appName);
 
         const symbol = this.state.symbol;
         const subsig = new PcsSignature(network, symbol); // 必要なインスタンスの生成
@@ -68,7 +70,7 @@ class Password extends Component {
         const { account, subkey } = await subsig.getEOSAuth(nftId);
 
         try {
-            if (account === process.env.REACT_APP_EOS_ACCOUNT) {
+            if (account === AGENT_NAME) {
                 // 代理人
                 await pcs.refreshKey(password, symbol, nftId, true);
             } else {
@@ -86,8 +88,9 @@ class Password extends Component {
 
 
     render() {
+        const theme = this.props.theme;
         return (
-            <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
+            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 mb-3 normal-shadow border-special"}>
                 <h5>{"🔑 パスワード変更・再設定・復元"}</h5>
                 パスワード変更・再設定・復元します。
                 <br/>

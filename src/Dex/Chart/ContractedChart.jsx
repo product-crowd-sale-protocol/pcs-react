@@ -121,7 +121,7 @@ class ContracedChart extends Component {
         const tick_color = (this.props.theme === THEME.DARK) ? "white" : "black";
 
         return (
-            <Col xs="12" md="6" className="my-2">
+            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " my-2"}>
                 <Row>
 
                     <Col xs="12">

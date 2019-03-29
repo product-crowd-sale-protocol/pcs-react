@@ -7,6 +7,7 @@ import "./DexForm.css";
 import Buy from "./Buy";
 import Sell from "./Sell";
 import Order from "./Order";
+import { THEME } from "../../scripts/Theme";
 
 // LobbyのDexページの売買フォームを担う
 class DexForm extends Component {
@@ -30,8 +31,11 @@ class DexForm extends Component {
     }
 
     render() {
+        const symbol = this.props.symbol;
+        const theme = this.props.theme;
+        const appName = this.props.appName;
         return (
-            <div id="dex-form">
+            <div id="dex-form" className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
                 <Nav tabs>
 
                     <NavItem>
@@ -68,7 +72,7 @@ class DexForm extends Component {
                     <TabPane tabId="buy">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Buy />
+                                <Buy symbol={symbol} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>
@@ -76,7 +80,7 @@ class DexForm extends Component {
                     <TabPane tabId="sell">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Sell />
+                                <Sell symbol={symbol} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>
@@ -84,7 +88,7 @@ class DexForm extends Component {
                     <TabPane tabId="order">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Order />
+                                <Order symbol={symbol} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>

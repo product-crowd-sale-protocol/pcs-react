@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Collapse, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { PcsClient, PcsSignature, EOS_NETWORK } from "pcs-js-eos";
-import "../App.css";
-import "../Dark.css";
-import "../White.css";
+import "../style/App.css";
+import "../style/Dark.css";
+import "../style/White.css";
+import { THEME } from "../../scripts/Theme";
+import { AGENT_NAME } from "../scripts/Config";
 
 class Transfer extends Component {
     constructor(props) {
@@ -55,7 +57,7 @@ class Transfer extends Component {
         this.lockBtn();
 
         let network = EOS_NETWORK.kylin.asia;
-        let pcs = new PcsClient(network, process.env.REACT_APP_APP_NAME);
+        let pcs = new PcsClient(network, this.props.appName);
 
         const symbol = this.state.symbol;
         const subsig = new PcsSignature(network, symbol); // 必要なインスタンスの生成
@@ -66,7 +68,7 @@ class Transfer extends Component {
 
         try {
             const recipient = this.state.recipient;
-            if (account === process.env.REACT_APP_EOS_ACCOUNT) {
+            if (account === AGENT_NAME) {
                 await pcs.transferById(recipient, symbol, nftId, true);
             } else {
                 await pcs.transferById(recipient, symbol, nftId);
@@ -89,8 +91,9 @@ class Transfer extends Component {
     }
 
     render() {
+        const theme = this.props.theme;
         return (
-            <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
+            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 mb-3 normal-shadow border-special"}>
                 <h5>{"💸 トークン送信"}</h5>
                 トークンを送信します。
                 <br />

@@ -1,11 +1,10 @@
 'use strict'
 
 import React, { Component } from "react";
-import BorderChart from "./BorderChart";
 import ContracedChart from "./ContractedChart";
 
 // Chart Component
-class Charts extends Component {
+class Chart extends Component {
 
     render() {
         const symbol = this.props.symbol;
@@ -13,12 +12,10 @@ class Charts extends Component {
 
         return (
             <React.Fragment>
-                <BorderChart symbol={symbol} theme={theme} />
-
                 <ContracedChart symbol={symbol} theme={theme} />
             </React.Fragment >
         );
     }
 }
 
-export default Charts;
+export default Chart;

@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { PcsDex, EOS_NETWORK } from "pcs-js-eos";
-import { checkUint, checkUnsigned } from "../../../../scripts/Util";
+import { checkUint, checkUnsigned } from "../../scripts/Util";
 
 // 新規売り注文と買い板から買う機能
 class Sell extends Component {
@@ -57,7 +57,7 @@ class Sell extends Component {
 
         const symbol = this.props.symbol;
         let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, process.env.REACT_APP_APP_NAME);
+        let dex = new PcsDex(network, this.props.appName);
 
         // ユーザーの認証情報からScatterのアカウント と 売ろうとしているアカウントの名前が等しいことを確認する
         this.lockBtn();
@@ -94,7 +94,7 @@ class Sell extends Component {
         }
         const symbol = this.props.symbol;
         let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, process.env.REACT_APP_APP_NAME);
+        let dex = new PcsDex(network, this.props.appName);
 
         this.lockBtn();
 

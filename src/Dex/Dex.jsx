@@ -4,6 +4,9 @@ import Charts from "./Chart/Charts";
 import Board from "./Board/DexBoard";
 import DexForm from "./Form/DexForm";
 import Price from "./Price/Price";
+import "../style/App.css";
+import "../style/Dark.css";
+import "../style/White.css";
 
 // LobbyのDexとPV部分を担うコンポーネント
 class Dex extends Component {
@@ -12,13 +15,13 @@ class Dex extends Component {
         const theme = this.props.theme;
 
         return (
-            <div>
+            <div className={((theme === THEME.DARK) ? "dark-mode" : "white-mode")}>
                 <h2>{"メンバーシップ取引所"}</h2>
 
                 <Col xs="12" id="dex" className="py-3 mt-1 border-special normal-shadow">
                     {/* 価格 */}
                     <Row className="mx-1 py-2">
-                        <Price />
+                        <Price symbol={symbol} theme={theme} />
                     </Row>
 
                     {/* 取引フォーム&板 */}

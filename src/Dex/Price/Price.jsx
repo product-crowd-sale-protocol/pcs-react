@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
 import Aws from "../../../../scripts/Aws";
 import { PcsSignature, EOS_NETWORK } from "pcs-js-eos";
+import { THEME } from "../../scripts/Theme";
 
 class Price extends Component {
 
@@ -18,7 +19,7 @@ class Price extends Component {
     }
 
     async componentDidMount() {
-        const symbol = this.props.community.symbol;
+        const symbol = this.props.symbol;
         const subsig = new PcsSignature(this.network, symbol);
         const { signature, subkey } = await subsig.getSigAndSubkey();
 
@@ -41,8 +42,9 @@ class Price extends Component {
     }
 
     render() {
+        const theme = this.props.theme;
         return (
-            <Col xs="12">
+            <Col xs="12" className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
                 <Row>
 
                     <Col xs="12">

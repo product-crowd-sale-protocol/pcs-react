@@ -3,7 +3,8 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { PcsDex, EOS_NETWORK, getTable } from "pcs-js-eos";
-import { asyncAll, checkUint } from "../../../../scripts/Util";
+import { asyncAll, checkUint } from "../../scripts/Util";
+import { CONTRACT_NAME } from "../../scripts/Config";
 
 // 新規買い注文と売り板から買う機能
 class Order extends Component {
@@ -13,7 +14,7 @@ class Order extends Component {
 
         this.timer = null;
         this.network = EOS_NETWORK.kylin.asia;
-        this.dex = new PcsDex(this.network, process.env.REACT_APP_APP_NAME);
+        this.dex = new PcsDex(this.network, this.props.appName);
         this.state = {
             format: "buyOrder",
             buyOrder: [],
@@ -91,7 +92,7 @@ class Order extends Component {
 
     // 自分の買い注文のIDの配列を取得する
     async getOwnBuyOrder(accountName) {
-        const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
+        const code = CONTRACT_NAME;
         const symbol = this.props.symbol;  // DEXのsymbol
 
         // 自分の買い注文一覧を取得する
@@ -110,7 +111,7 @@ class Order extends Component {
 
     // 自分の売り注文のIDの配列を取得する
     async getOwnSellOrder(accountName) {
-        const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
+        const code = CONTRACT_NAME;
         const symbol = this.props.symbol;  // DEXのsymbol
 
         // 自分の買い注文一覧を取得する
@@ -133,7 +134,7 @@ class Order extends Component {
             return window.alert("注文IDを選択してください。");
         }
 
-        const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
+        const code = CONTRACT_NAME;
         const symbol = this.props.symbol;  // DEXのsymbol
 
         this.lockBtn();
@@ -179,7 +180,7 @@ class Order extends Component {
 
     // 売り注文をキャンセルする
     async cancelSellOrder(sellTargetId) {
-        const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
+        const code = CONTRACT_NAME;
         const symbol = this.props.symbol;
 
         if ((!checkUint(sellTargetId))) {

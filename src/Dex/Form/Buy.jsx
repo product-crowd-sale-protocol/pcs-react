@@ -3,7 +3,8 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { PcsDex, EOS_NETWORK, getTable } from "pcs-js-eos";
-import { checkUint } from "../../../../scripts/Util";
+import { checkUint } from "../../scripts/Util";
+import { CONTRACT_NAME, LOWER_THAN_BORDER_MSG } from "../../scripts/Config";
 
 // 新規買い注文と売り板から買う機能
 class Buy extends Component {
@@ -53,7 +54,7 @@ class Buy extends Component {
     async createBuyOrder(price) {
         const symbol = this.props.symbol;
         let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, process.env.REACT_APP_APP_NAME);
+        let dex = new PcsDex(network, this.props.appName);
 
         this.lockBtn();
         try {
@@ -71,7 +72,7 @@ class Buy extends Component {
             try {
                 let errorObj = JSON.parse(error.message);
                 let details = errorObj.error.details;
-                if (details[0].message === process.env.REACT_APP_LOWER_THAN_BORDER) {
+                if (details[0].message === LOWER_THAN_BORDER_MSG) {
                     return window.alert("ボーダー価格より低い価格での買い注文はできません。");
                 } else {
                     return window.alert("トークンの買い注文を中断しました。");
@@ -89,13 +90,12 @@ class Buy extends Component {
             throw new Error("invalid Id.");
         }
 
-        const code = process.env.REACT_APP_CONTRACT_ACCOUNT;
         const symbol = this.props.symbol;
         let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, process.env.REACT_APP_APP_NAME);
+        let dex = new PcsDex(network, this.props.appName);
 
         const query = {
-            "code": code,
+            "code": CONTRACT_NAME,
             "scope": symbol,
             "table": "sellorder",
             "lower_bound": targetId,

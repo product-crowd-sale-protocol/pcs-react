@@ -1,9 +1,10 @@
 import React, { PureComponent } from "react";
 import { Col, Button } from "reactstrap";
 import { PcsClient, EOS_NETWORK } from "pcs-js-eos";
-import "../App.css";
-import "../Dark.css";
-import "../White.css";
+import "../style/App.css";
+import "../style/Dark.css";
+import "../style/White.css";
+import { THEME } from "../scripts/Theme";
 
 class Scatter extends PureComponent {
 
@@ -16,7 +17,7 @@ class Scatter extends PureComponent {
             locked: false,
             loading: "none"
         };
-        this.pcs = new PcsClient(EOS_NETWORK.kylin.asia, process.env.REACT_APP_APP_NAME);
+        this.pcs = new PcsClient(EOS_NETWORK.kylin.asia, this.props.appName);
         this.timer = null;
 
         this.renderStatus = this.renderStatus.bind(this);
@@ -150,8 +151,9 @@ class Scatter extends PureComponent {
     }
 
     render() {
+        const theme = this.props.theme;
         return (
-            <Col xs="12" className="p-3 mb-3 normal-shadow border-special">
+            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 mb-3 normal-shadow border-special"}>
                 <h5>{"⛓ Scatter"}</h5>
                 {this.renderStatus()}
             </Col>

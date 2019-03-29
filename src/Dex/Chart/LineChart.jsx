@@ -4,6 +4,9 @@ import React, { Component } from 'react'
 import TweetEmbed from 'react-tweet-embed';
 import * as d3 from 'd3';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import "../../style/App.css";
+import "../../style/Dark.css";
+import "../../style/White.css";
 
 // チャート描画用のコンポーネント
 class LineChart extends Component {
