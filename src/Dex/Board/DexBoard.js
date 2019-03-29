@@ -8,6 +8,7 @@ import "./DexBoard.css";
 import "../../style/App.css";
 import "../../style/Dark.css";
 import "../../style/White.css";
+import "../../style/bootstrap.min.css";
 import { THEME } from "../../scripts/Theme";
 import Aws from "../../scripts/Aws";
 import { CONTRACT_NAME } from "../../scripts/Config";

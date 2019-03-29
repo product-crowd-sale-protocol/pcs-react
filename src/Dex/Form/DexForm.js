@@ -10,6 +10,7 @@ import Order from "./Order";
 import "../../style/App.css";
 import "../../style/Dark.css";
 import "../../style/White.css";
+import "../../style/bootstrap.min.css";
 import { THEME } from "../../scripts/Theme";
 
 // LobbyのDexページの売買フォームを担う

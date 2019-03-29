@@ -4,6 +4,7 @@ import { PcsClient, PcsSignature, EOS_NETWORK } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
+import "../style/bootstrap.min.css";
 import { THEME } from "../scripts/Theme";
 import { AGENT_NAME } from "../scripts/Config";
 
