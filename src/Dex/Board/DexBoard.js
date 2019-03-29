@@ -3,12 +3,13 @@
 import React, { Component } from "react";
 import { Col, Row, Table } from 'reactstrap';
 import { asyncMap } from "../../scripts/Util";
-import { getTable, EOS_NETWORK } from "pcs-js-eos";
+import { getTable, EOS_NETWORK } from "../../pcs-js-eos/main";
 import "./DexBoard.css";
 import "../../style/App.css";
 import "../../style/Dark.css";
 import "../../style/White.css";
 import { THEME } from "../../scripts/Theme";
+import Aws from "../../scripts/Aws";
 import { CONTRACT_NAME } from "../../scripts/Config";
 
 // Dexの板部分

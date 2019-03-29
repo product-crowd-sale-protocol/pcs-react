@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Col, Button } from "reactstrap";
-import { PcsClient, EOS_NETWORK } from "pcs-js-eos";
+import { PcsClient, EOS_NETWORK } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";

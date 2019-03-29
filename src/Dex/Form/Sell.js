@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK } from "pcs-js-eos";
+import { PcsDex, EOS_NETWORK } from "../../pcs-js-eos/main";
 import { checkUint, checkUnsigned } from "../../scripts/Util";
 
 // 新規売り注文と買い板から買う機能

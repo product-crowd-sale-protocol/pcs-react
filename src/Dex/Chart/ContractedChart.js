@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 import LineChart from './LineChart';
-import { PcsSignature, EOS_NETWORK } from "pcs-js-eos"
+import { PcsSignature, EOS_NETWORK } from "../../pcs-js-eos/main"
 import Aws from "../../scripts/Aws";
 import { THEME } from "../../scripts/Theme";
 
@@ -107,6 +107,7 @@ class ContracedChart extends Component {
     }
 
     render() {
+        const theme = this.props.theme;
         const contractedOrderData = this.state.contractedOrderData;
         const contractedOrderTimeRange = [this.state.contractedOrderTimeBegin, this.state.contractedOrderTimeEnd];
         const contractedOrderConfig = {
@@ -118,7 +119,7 @@ class ContracedChart extends Component {
             curveCompletion: "curveStepBefore",
         };
 
-        const tick_color = (this.props.theme === THEME.DARK) ? "white" : "black";
+        const tick_color = (theme === THEME.DARK) ? "white" : "black";
 
         return (
             <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " my-2"}>

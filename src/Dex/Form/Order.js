@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK, getTable } from "pcs-js-eos";
+import { PcsDex, EOS_NETWORK, getTable } from "../../pcs-js-eos/main";
 import { asyncAll, checkUint } from "../../scripts/Util";
 import { CONTRACT_NAME } from "../../scripts/Config";
 

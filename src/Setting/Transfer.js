@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Collapse, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PcsClient, PcsSignature, EOS_NETWORK } from "pcs-js-eos";
+import { PcsClient, PcsSignature, EOS_NETWORK } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";

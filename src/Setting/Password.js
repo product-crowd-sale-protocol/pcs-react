@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Collapse, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PcsClient, PcsSignature, EOS_NETWORK } from "pcs-js-eos";
+import { PcsClient, PcsSignature, EOS_NETWORK } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
@@ -59,6 +59,7 @@ class Password extends Component {
 
         let network = EOS_NETWORK.kylin.asia;
         let pcs = new PcsClient(network, this.props.appName);
+        console.log(pcs.network);
 
         const symbol = this.state.symbol;
         const subsig = new PcsSignature(network, symbol); // 必要なインスタンスの生成
@@ -75,6 +76,7 @@ class Password extends Component {
                 await pcs.refreshKey(password, symbol, nftId, true);
             } else {
                 // Scatter
+                console.log("args: ", password, symbol, nftId);
                 await pcs.refreshKey(password, symbol, nftId);
             }
             this.unlockBtn();

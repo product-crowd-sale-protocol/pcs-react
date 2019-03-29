@@ -7,4 +7,3 @@ export Dex from "./Dex/Dex";
 export DexBoard from "./Dex/Board/DexBoard";
 export Chart from "./Dex/Chart/Chart";
 export DexForm from "./Dex/Form/DexForm";
-export Price from "./Dex/Price/Price";

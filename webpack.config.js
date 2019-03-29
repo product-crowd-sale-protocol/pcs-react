@@ -4,7 +4,24 @@ module.exports = {
     entry: './src/main.js',
     output: {
         filename: 'main.js',
-        path: path.join(__dirname, 'dist')
+        path: path.join(__dirname, 'dist'),
+        library: 'pcs-react',
+        libraryTarget: 'umd'
+    }, 
+    externals: {
+        "bootstrap": "bootstrap",
+        "d3": "d3",
+        "bigi": "bigi",
+        "bs58": "bs58",
+        "eosjs": "eosjs",
+        "eosjs-ecc": "eosjs-ecc",
+        "scatterjs-core": "scatterjs-core",
+        "scatterjs-plugin-eosjs": "scatterjs-plugin-eosjs",
+        "react": "react",
+        "react-dom": "react-dom",
+        "react-scripts": "react-scripts",
+        "react-tweet-embed": "react-tweet-embed",
+        "reactstrap": "reactstrap"
     },
     module: {
         rules: [
