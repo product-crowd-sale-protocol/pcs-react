@@ -1,14 +1,13 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
-/lambda/dynamo/lib
-/lambda/eos_price/lib
+/lib
+*.pyc
+.pnp.js
+
+# dev
 /.pnp
 /.vscode
 *.zip
-*.pyc
-.pnp.js
 
 # testing
 /coverage
