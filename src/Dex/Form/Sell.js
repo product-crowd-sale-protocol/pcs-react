@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK } from "../../pcs-js-eos/main";
+import { PcsDex, EOS_NETWORK, ScatterError } from "../../pcs-js-eos/main";
 import { checkUint, checkUnsigned } from "../../scripts/Util";
 
 // 新規売り注文と買い板から買う機能
@@ -67,13 +67,13 @@ class Sell extends Component {
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
-                console.error(e);
+                console.error(error);
                 return window.alert("ログインに失敗しました。");
             }
         }
@@ -103,10 +103,10 @@ class Sell extends Component {
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
             }

@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK, getTable } from "../../pcs-js-eos/main";
+import { PcsDex, getTable } from "../../pcs-js-eos/main";
 import { asyncAll, checkUint } from "../../scripts/Util";
 import { CONTRACT_NAME } from "../../scripts/Config";
 
@@ -13,7 +13,7 @@ class Order extends Component {
         super(props);
 
         this.timer = null;
-        this.network = EOS_NETWORK.kylin.asia;
+        this.network = this.props.network;
         this.dex = new PcsDex(this.network, this.props.appName);
         this.state = {
             format: "buyOrder",
@@ -43,10 +43,10 @@ class Order extends Component {
     async componentDidMount() {
         await this.setOwnOrder();
 
-        // 10秒間隔で板を更新する
+        // 2秒間隔で板を更新する
         this.timer = setInterval(() => {
             this.setOwnOrder();
-        }, 10000);
+        }, 1000);
     }
 
     componentWillUnmount() {
@@ -77,8 +77,8 @@ class Order extends Component {
     // 自分の注文一覧をstateにセットする
     async setOwnOrder() {
         let scatterName = null;
-        if ((this.dex.account) && ("name" in this.dex.account)) {
-            scatterName = this.dex.account.name; // Scatterのアカウント名
+        if (this.props.accountName) {
+            scatterName = this.props.accountName; // Scatterのアカウント名
         }
 
         if (scatterName) {
@@ -150,6 +150,7 @@ class Order extends Component {
         const result = await getTable(this.network, query);
 
         if (result.rows.length === 0) {
+            this.unlockBtn();
             return window.alert("買い注文が確認できませんでした");
         }
 
@@ -158,10 +159,10 @@ class Order extends Component {
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
             }
@@ -200,6 +201,7 @@ class Order extends Component {
         const result = await getTable(this.network, query);
 
         if (result.rows.length === 0) {
+            this.unlockBtn();
             return window.alert("売り注文が確認できませんでした");
         }
 
@@ -208,10 +210,10 @@ class Order extends Component {
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
             }

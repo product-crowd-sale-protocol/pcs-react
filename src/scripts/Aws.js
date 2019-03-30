@@ -5,7 +5,6 @@ export default class Aws {
 
     // チャートの描画のために、約定価格のデータをサーバーから取ってくる
     static async getContractedOrder(token_symbol, sig, subkey, action_place, from, to) {
-        console.log(from, to);
         if (from && to && from > to) {
             return [];
         }

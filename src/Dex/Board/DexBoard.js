@@ -32,10 +32,10 @@ class Board extends Component {
     async componentDidMount() {
         await this.updateBoard();
 
-        // 5秒間隔で板を更新する
+        // 3秒間隔で板を更新する
         this.timer = setInterval(() => {
             this.updateBoard()
-        }, 5000);
+        }, 3000);
     }
 
     componentWillUnmount() {

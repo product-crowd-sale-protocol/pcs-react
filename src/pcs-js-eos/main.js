@@ -41,6 +41,12 @@ Object.defineProperty(exports, "getTable", {
     return _eosUtil.getTable;
   }
 });
+Object.defineProperty(exports, "ScatterError", {
+  enumerable: true,
+  get: function get() {
+    return _error.ScatterError;
+  }
+});
 
 var _checkSig = _interopRequireDefault(require("./checkSig"));
 
@@ -51,5 +57,7 @@ var _dexClient = _interopRequireDefault(require("./dexClient"));
 var _network = require("./util/network");
 
 var _eosUtil = require("./util/eosUtil");
+
+var _error = require("./util/error");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

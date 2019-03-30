@@ -12,6 +12,7 @@ import "../../style/Dark.css";
 import "../../style/White.css";
 import "../../style/bootstrap.min.css";
 import { THEME } from "../../scripts/Theme";
+import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
 
 // LobbyのDexページの売買フォームを担う
 class DexForm extends Component {
@@ -19,18 +20,44 @@ class DexForm extends Component {
     constructor(props) {
         super(props);
 
+        this.network = this.props.network;
+        console.log(this.props.appName);
+        this.dex = new PcsDex(this.network, this.props.appName);
         this.state = {
-            activeTab: 'buy'
+            activeTab: "buy",
+            account: ""
         };
 
         this.toggle = this.toggle.bind(this);
     }
 
-    toggle(tab) {
+    async toggle(tab) {
         if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab
-            });
+            if (tab === "order") {
+                try {
+                    await this.dex.login();
+                    this.setState({
+                        activeTab: tab,
+                        account: this.dex.account.name
+                    });
+                } catch (error) {
+                    if (error instanceof ScatterError) {
+                        if (error.errorType === "connection_fail") {
+                            return window.alert("注文一覧を取得するにはScatterが必要です。アンロックされているか確認してください。");
+                        } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
+                            return window.alert("注文一覧を取得するにはScatterにアカウントをセットしてください。");
+                        }
+                        console.error(error);
+                        return window.alert("注文一覧を取得するにはScatterが必要です。");
+                    }
+                    console.error(error);
+                    return window.alert("注文一覧を取得するにはScatterが必要です。");
+                }
+            } else {
+                this.setState({
+                    activeTab: tab
+                });
+            }
         }
     }
 
@@ -39,6 +66,7 @@ class DexForm extends Component {
         const theme = this.props.theme;
         const network = this.props.network;
         const appName = this.props.appName;
+        const account = this.state.account;
         return (
             <div id="dex-form" className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
                 <Nav tabs>
@@ -93,7 +121,7 @@ class DexForm extends Component {
                     <TabPane tabId="order">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Order symbol={symbol} network={network} appName={appName} />
+                                <Order symbol={symbol} network={network} appName={appName} accountName={account} />
                             </Col>
                         </Row>
                     </TabPane>

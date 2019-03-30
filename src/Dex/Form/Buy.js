@@ -2,10 +2,8 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, getTable } from "../../pcs-js-eos/main";
-import { ScatterError } from "../../pcs-js-eos/util/error";
+import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
 import { checkUint } from "../../scripts/Util";
-import { CONTRACT_NAME } from "../../scripts/Config";
 
 // 新規買い注文と売り板から買う機能
 class Buy extends Component {
@@ -14,7 +12,6 @@ class Buy extends Component {
         super(props);
 
         this.network = this.props.network;
-        console.log(this.network);
         this.state = {
             format: "new",
             price: 0,
@@ -61,7 +58,6 @@ class Buy extends Component {
         this.lockBtn();
         try {
             await dex.addBuyOrder(symbol, price);
-            this.unlockBtn();
         }
         catch (error) {
             this.unlockBtn();
@@ -77,6 +73,8 @@ class Buy extends Component {
             console.error(error);
             return window.alert("トークンの買い注文を中断しました。");
         }
+        this.unlockBtn();
+        return window.alert("トークンの買い注文が完了しました。");
     }
 
     // 売り注文から買う
@@ -88,23 +86,10 @@ class Buy extends Component {
 
         const symbol = this.props.symbol;
         let dex = new PcsDex(this.network, this.props.appName);
-
-        const query = {
-            "code": CONTRACT_NAME,
-            "scope": symbol,
-            "table": "sellorder",
-            "lower_bound": targetId,
-            "upper_bound": targetId,
-            "limit": 1
-        };
-
         this.lockBtn();
-        console.log("args: ", this.network, query);
-        const result = await getTable(this.network, query);
-        const price = result.rows[0].price;
 
         try {
-            await dex.buyFromOrder(symbol, price);
+            await dex.buyFromOrder(symbol, targetId);
             this.unlockBtn();
             return window.alert("トークンを購入しました。");
         }
