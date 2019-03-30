@@ -154,7 +154,7 @@ class Scatter extends PureComponent {
     render() {
         const theme = this.props.theme;
         return (
-            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 mb-3 normal-shadow border-special"}>
+            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 normal-shadow border-special"}>
                 <h5>{"⛓ Scatter"}</h5>
                 {this.renderStatus()}
             </Col>

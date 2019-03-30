@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row } from "reactstrap";
+import { Container, Col, Row } from "reactstrap";
 import Password from "./Password";
 import Transfer from "./Transfer";
 import Scatter from "./Scatter";
@@ -24,7 +24,11 @@ class Setting extends Component {
 
                         <Scatter theme={theme} appName={appName} network={network} />
 
+                        <Col xs="12" className="my-2"></Col>
+
                         <Password theme={theme} appName={appName} network={network} />
+
+                        <Col xs="12" className="my-2"></Col>
 
                         <Transfer theme={theme} appName={appName} network={network} />
                     </Row>
