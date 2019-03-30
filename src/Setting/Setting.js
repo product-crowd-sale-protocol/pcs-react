@@ -13,6 +13,7 @@ class Setting extends Component {
     render() {
         const theme = this.props.theme;
         const appName = this.props.appName;
+        const symbol = this.props.symbol;
         const network = this.props.network;
         return (
             <div className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " setting"}>
@@ -26,16 +27,22 @@ class Setting extends Component {
 
                         <Col xs="12" className="my-2"></Col>
 
-                        <Password theme={theme} appName={appName} network={network} />
+                        <Password theme={theme} appName={appName} symbol={symbol} network={network} />
 
                         <Col xs="12" className="my-2"></Col>
 
-                        <Transfer theme={theme} appName={appName} network={network} />
+                        <Transfer theme={theme} appName={appName} symbol={symbol} network={network} />
                     </Row>
                 </Container>
             </div>
         );
     }
 }
+
+Setting.defaultProps = {
+    theme: THEME.DARK,
+    appName: "PCS_APP",
+    symbol: ""
+};
 
 export default Setting;

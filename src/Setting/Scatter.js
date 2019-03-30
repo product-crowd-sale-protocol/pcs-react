@@ -162,4 +162,9 @@ class Scatter extends PureComponent {
     }
 }
 
+Scatter.defaultProps = {
+    theme: THEME.DARK,
+    appName: "PCS_APP"
+};
+
 export default Scatter;

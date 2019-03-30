@@ -15,7 +15,7 @@ class Transfer extends Component {
         this.state = {
             collapse: false,
             locked: false,
-            symbol: "",
+            symbol: this.props.symbol,
             nftId: "",
             recipient: "",
             loading: "none"
@@ -26,6 +26,7 @@ class Transfer extends Component {
         this.unlockBtn = this.unlockBtn.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.transfer = this.transfer.bind(this);
+        this.renderForm = this.renderForm.bind(this);
     }
 
     toggle() {
@@ -87,22 +88,32 @@ class Transfer extends Component {
         });
     }
 
+    renderForm() {
+        if (this.props.symbol === "") {
+            return (
+                <FormGroup>
+                    <Label for="symbol">コミュニティ名</Label>
+                    <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
+                </FormGroup>
+            )
+        } else {
+            return (
+                <React.Fragment></React.Fragment>
+            )
+        }
+    }
+
     render() {
         const theme = this.props.theme;
         return (
             <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 normal-shadow border-special"}>
-                <h5>{"💸 トークン送信"}</h5>
-                トークンを送信します。
-                <br />
+                <h5>{this.props.title}</h5>
 
                 <Button size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">トークンを送信する</Button>
 
                 <Collapse isOpen={this.state.collapse}>
                     <Form>
-                        <FormGroup>
-                            <Label for="symbol">コミュニティ名</Label>
-                            <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
-                        </FormGroup>
+                        {this.renderForm()}
 
                         <FormGroup>
                             <Label for="nftId">トークンID</Label>
@@ -124,5 +135,12 @@ class Transfer extends Component {
         );
     }
 }
+
+Transfer.defaultProps = {
+    theme: THEME.DARK,
+    appName: "PCS_APP",
+    symbol: "",
+    title: "💸 トークン送信"
+};
 
 export default Transfer;
