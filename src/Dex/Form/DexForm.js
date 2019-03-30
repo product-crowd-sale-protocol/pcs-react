@@ -37,6 +37,7 @@ class DexForm extends Component {
     render() {
         const symbol = this.props.symbol;
         const theme = this.props.theme;
+        const network = this.props.network;
         const appName = this.props.appName;
         return (
             <div id="dex-form" className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
@@ -76,7 +77,7 @@ class DexForm extends Component {
                     <TabPane tabId="buy">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Buy symbol={symbol} appName={appName} />
+                                <Buy symbol={symbol} network={network} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>
@@ -84,7 +85,7 @@ class DexForm extends Component {
                     <TabPane tabId="sell">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Sell symbol={symbol} appName={appName} />
+                                <Sell symbol={symbol} network={network} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>
@@ -92,7 +93,7 @@ class DexForm extends Component {
                     <TabPane tabId="order">
                         <Row className="p-2">
                             <Col xs="12">
-                                <Order symbol={symbol} appName={appName} />
+                                <Order symbol={symbol} network={network} appName={appName} />
                             </Col>
                         </Row>
                     </TabPane>

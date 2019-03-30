@@ -13,6 +13,7 @@ class Setting extends Component {
     render() {
         const theme = this.props.theme;
         const appName = this.props.appName;
+        const network = this.props.network;
         return (
             <div className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " setting"}>
                 <Container className="py-4">
@@ -21,11 +22,11 @@ class Setting extends Component {
                             <h2>{"🔧 Setting 🔨"}</h2>
                         </div>
 
-                        <Scatter theme={theme} appName={appName} />
+                        <Scatter theme={theme} appName={appName} network={network} />
 
-                        <Password theme={theme} appName={appName} />
+                        <Password theme={theme} appName={appName} network={network} />
 
-                        <Transfer theme={theme} appName={appName} />
+                        <Transfer theme={theme} appName={appName} network={network} />
                     </Row>
                 </Container>
             </div>

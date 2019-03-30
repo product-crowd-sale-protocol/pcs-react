@@ -45,7 +45,7 @@ var _bigi = _interopRequireDefault(require("bigi"));
 
 var _scatter = require("./scatter");
 
-var _checkSig = require("./checkSig");
+var _checkSig = _interopRequireDefault(require("./checkSig"));
 
 var _server = _interopRequireDefault(require("./util/server"));
 
@@ -220,7 +220,7 @@ function (_Scatter) {
                 }
 
                 // use Agent to sign action data
-                sig = new _checkSig.PcsSignature(this.network, symbol);
+                sig = new _checkSig.default(this.network, symbol);
                 _sig$getLocalAuth = sig.getLocalAuth(), privateKey = _sig$getLocalAuth.privateKey;
                 _context3.next = 7;
                 return this.transferByIdToAgent(privateKey, recipient, symbol, nftId);
@@ -331,10 +331,9 @@ function (_Scatter) {
               case 21:
                 _context4.prev = 21;
                 _context4.t0 = _context4["catch"](14);
-                console.error(_context4.t0);
-                return _context4.abrupt("return", false);
+                throw new Error(_context4.t0);
 
-              case 25:
+              case 24:
               case "end":
                 return _context4.stop();
             }
@@ -379,7 +378,7 @@ function (_Scatter) {
               case 0:
                 agent = _args5.length > 3 && _args5[3] !== undefined ? _args5[3] : false;
                 _context5.prev = 1;
-                subsig = new _checkSig.PcsSignature(this.network, symbol);
+                subsig = new _checkSig.default(this.network, symbol);
                 _context5.next = 5;
                 return subsig.getLocalAuth();
 
@@ -471,7 +470,7 @@ function (_Scatter) {
       var _refreshKeyToAgent = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee6(wif, sym, token_id, new_subkey) {
-        var act_bin, sym_bin, id_bin, sk_bin, ts_bin, message_bin, message, sig, query, signedTx, response;
+        var act_bin, sym_bin, id_bin, sk_bin, ts_bin, message_bin, message, sig, query, signedTx;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -513,21 +512,20 @@ function (_Scatter) {
                 return this.eosJS.pushTransaction(signedTx);
 
               case 17:
-                response = _context6.sent;
-                return _context6.abrupt("return", true);
+                _context6.next = 22;
+                break;
 
-              case 21:
-                _context6.prev = 21;
+              case 19:
+                _context6.prev = 19;
                 _context6.t0 = _context6["catch"](14);
-                console.error(_context6.t0);
-                return _context6.abrupt("return", false);
+                throw new Error(_context6.t0);
 
-              case 25:
+              case 22:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[14, 21]]);
+        }, _callee6, this, [[14, 19]]);
       }));
 
       function refreshKeyToAgent(_x16, _x17, _x18, _x19) {
@@ -554,7 +552,7 @@ function (_Scatter) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                subsig = new _checkSig.PcsSignature(this.network, symbol);
+                subsig = new _checkSig.default(this.network, symbol);
                 _subsig$getLocalAuth = subsig.getLocalAuth(), id = _subsig$getLocalAuth.id, privateKey = _subsig$getLocalAuth.privateKey;
                 _context7.prev = 2;
                 _context7.next = 5;

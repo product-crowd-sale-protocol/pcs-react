@@ -14,6 +14,7 @@ class Dex extends Component {
     render() {
         const symbol = this.props.symbol;
         const theme = this.props.theme;
+        const network = this.props.network;
 
         return (
             <Container className={((theme === THEME.DARK) ? "dark-mode" : "white-mode")}>
@@ -26,18 +27,18 @@ class Dex extends Component {
                         <Row className="mx-1 pt-3 pb-2 border-top">
 
                             <Col xs="12" md="6">
-                                <DexForm theme={theme} />
+                                <DexForm symbol={symbol} theme={theme} network={network} />
                             </Col>
 
                             <Col xs="12" md="6">
-                                <Board symbol={symbol} theme={theme} />
+                                <Board symbol={symbol} theme={theme} network={network}  />
                             </Col>
 
                         </Row>
 
                         {/* チャート */}
                         <Row className="mb-2 mx-1 pt-3 border-top">
-                            <Chart symbol={symbol} theme={theme} />
+                            <Chart symbol={symbol} theme={theme} network={network}  />
                         </Row>
 
                     </Col>

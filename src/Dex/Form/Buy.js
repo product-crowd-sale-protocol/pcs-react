@@ -2,9 +2,10 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK, getTable } from "../../pcs-js-eos/main";
+import { PcsDex, getTable } from "../../pcs-js-eos/main";
+import { ScatterError } from "../../pcs-js-eos/util/error";
 import { checkUint } from "../../scripts/Util";
-import { CONTRACT_NAME, LOWER_THAN_BORDER_MSG } from "../../scripts/Config";
+import { CONTRACT_NAME } from "../../scripts/Config";
 
 // 新規買い注文と売り板から買う機能
 class Buy extends Component {
@@ -12,6 +13,8 @@ class Buy extends Component {
     constructor(props) {
         super(props);
 
+        this.network = this.props.network;
+        console.log(this.network);
         this.state = {
             format: "new",
             price: 0,
@@ -53,33 +56,26 @@ class Buy extends Component {
     // price 買いたい価格
     async createBuyOrder(price) {
         const symbol = this.props.symbol;
-        let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, this.props.appName);
+        let dex = new PcsDex(this.network, this.props.appName);
 
         this.lockBtn();
         try {
             await dex.addBuyOrder(symbol, price);
+            this.unlockBtn();
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
-            }
-            try {
-                let errorObj = JSON.parse(error.message);
-                let details = errorObj.error.details;
-                if (details[0].message === LOWER_THAN_BORDER_MSG) {
-                    return window.alert("ボーダー価格より低い価格での買い注文はできません。");
-                } else {
-                    return window.alert("トークンの買い注文を中断しました。");
-                }
-            } catch {
+                console.error(error);
                 return window.alert("トークンの買い注文を中断しました。");
             }
+            console.error(error);
+            return window.alert("トークンの買い注文を中断しました。");
         }
     }
 
@@ -91,8 +87,7 @@ class Buy extends Component {
         }
 
         const symbol = this.props.symbol;
-        let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, this.props.appName);
+        let dex = new PcsDex(this.network, this.props.appName);
 
         const query = {
             "code": CONTRACT_NAME,
@@ -104,13 +99,8 @@ class Buy extends Component {
         };
 
         this.lockBtn();
-        const result = await getTable(network, query);
-
-        if (result.rows.length === 0) {
-            return window.alert("売り注文が確認できませんでした");
-        }
-
-        // EOS単位のトークン価格
+        console.log("args: ", this.network, query);
+        const result = await getTable(this.network, query);
         const price = result.rows[0].price;
 
         try {
@@ -120,14 +110,16 @@ class Buy extends Component {
         }
         catch (error) {
             this.unlockBtn();
-            if (e instanceof ScatterError) {
-                if (e.errorType === "connection_fail") {
+            if (error instanceof ScatterError) {
+                if (error.errorType === "connection_fail") {
                     return window.alert("Scatterが見つかりません。アンロックされていることを確認してください。");
-                } else if ((e.errorType === "identity_not_found") || (e.errorType === "account_not_found")) {
+                } else if ((error.errorType === "identity_not_found") || (error.errorType === "account_not_found")) {
                     return window.alert("アカウントの秘密鍵がセットされていません。");
                 }
-                return window.alert("ログインに失敗しました。");
+                console.error(error);
+                return window.alert("トークンの購入を中断しました。");
             }
+            console.error(error);
             return window.alert("トークンの購入を中断しました。");
         }
     }

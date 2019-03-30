@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Collapse, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PcsClient, PcsSignature, EOS_NETWORK } from "../pcs-js-eos/main";
+import { PcsClient, PcsSignature } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
@@ -56,31 +56,27 @@ class Transfer extends Component {
     // トークン送信する
     async transfer() {
         this.lockBtn();
-
-        let network = EOS_NETWORK.kylin.asia;
+        const network = this.props.network;
         let pcs = new PcsClient(network, this.props.appName);
-
         const symbol = this.state.symbol;
-        const subsig = new PcsSignature(network, symbol); // 必要なインスタンスの生成
-
-        // トークンIDを用いてEOSからトークンの所有者及び、subsig公開鍵を取得する
+        const subsig = new PcsSignature(network, symbol);
         const nftId = this.state.nftId;
         const { account } = await subsig.getEOSAuth(nftId);
 
-        try {
-            const recipient = this.state.recipient;
-            if (account === AGENT_NAME) {
-                await pcs.transferById(recipient, symbol, nftId, true);
-            } else {
-                await pcs.transferById(recipient, symbol, nftId);
-            }
-            window.alert("トークンの送信に成功しました。");
+        let res = false;
+        const recipient = this.state.recipient;
+        if (account === AGENT_NAME) {
+            res = await pcs.transferById(recipient, symbol, nftId, true);
+        } else {
+            res = await pcs.transferById(recipient, symbol, nftId);
         }
-        catch (error) {
-            console.error(error);
-            this.unlockBtn();
+        this.unlockBtn();
+        if (res) {
+            window.alert("トークンの送信に成功しました。");
+        } else {
             return window.alert("ScatterもしくはEOSもしくは代理人サーバーの内部エラーにより、トークンの送信に失敗しました。トークンの所有権には問題はありません。");
         }
+
         this.setState({
             collapse: false,
             locked: false,

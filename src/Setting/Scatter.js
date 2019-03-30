@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Col, Button } from "reactstrap";
-import { PcsClient, EOS_NETWORK } from "../pcs-js-eos/main";
+import { PcsClient } from "../pcs-js-eos/main";
 import "../style/App.css";
 import "../style/Dark.css";
 import "../style/White.css";
@@ -18,7 +18,7 @@ class Scatter extends PureComponent {
             locked: false,
             loading: "none"
         };
-        this.pcs = new PcsClient(EOS_NETWORK.kylin.asia, this.props.appName);
+        this.pcs = new PcsClient(this.props.network, this.props.appName);
         this.timer = null;
 
         this.renderStatus = this.renderStatus.bind(this);
