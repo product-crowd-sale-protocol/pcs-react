@@ -31,10 +31,11 @@
     "url": "https://github.com/product-crowd-sale-protocol/pcs-react/issues"
   },
   "dependencies": {
-    "bootstrap": "^4.2.1",
-    "d3": "^5.7.0",
     "bigi": "^1.4.2",
+    "bootstrap": "^4.2.1",
     "bs58": "^4.0.1",
+    "classnames": "^2.2.6",
+    "d3": "^5.7.0",
     "eosjs": "^16.0.9",
     "eosjs-ecc": "^4.0.4",
     "scatterjs-core": "^2.7.14",
