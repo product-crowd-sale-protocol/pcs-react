@@ -75,7 +75,7 @@ import { Dex, EOS_NETWORK, THEME } from "pcs-react"
 <Dex symbol={"TST"} chartDisplay={true} appName={"PCS_DEX_EXAMPLE"} theme={THEME.WHITE} network={EOS_NETWORK.kylin.asia} />
 
 // シンボルがPCSのPCSプロトコルのトークンのチャート付きのDEX
-<Dex symbol={"PCS"} chartDisplay={false} theme={THEME.DARK} network={EOS_NETWORK.main.scatters} />
+<Dex symbol={"PCS"} chartDisplay={false} theme={THEME.DARK} network={EOS_NETWORK.main.scatter} />
 ```
 
 ## 🔧 Setting
