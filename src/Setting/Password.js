@@ -11,7 +11,7 @@ import { AGENT_NAME } from "../scripts/Config";
 class Password extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             collapse: false,
             locked: false,
@@ -100,6 +100,60 @@ class Password extends Component {
         }
     }
 
+    renderCollapse() {
+        const formTitle1 = this.props.formTitle1;
+        const formTitle2 = this.props.formTitle2;
+        const btnText = this.props.btnText;
+        if (this.props.useCollapse) {
+            return (
+                <React.Fragment>
+                    <Button size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">{this.props.collapseBtnText}</Button>
+                    <Collapse isOpen={this.state.collapse}>
+                        <Form>
+                            {this.renderForm()}
+
+                            <FormGroup>
+                                <Label for="nftId">{formTitle1}</Label>
+                                <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder={formTitle1} />
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Label for="passWord">{formTitle2}</Label>
+                                <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder={formTitle2} />
+                            </FormGroup>
+
+                            <Button size="sm" onClick={this.refreshKey} disabled={this.state.locked}>
+                                <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                                {btnText}
+                        </Button>
+                        </Form>
+                    </Collapse>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <Form>
+                    {this.renderForm()}
+
+                    <FormGroup>
+                        <Label for="nftId">{formTitle1}</Label>
+                        <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder={formTitle1} />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="passWord">{formTitle2}</Label>
+                        <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder={formTitle2} />
+                    </FormGroup>
+
+                    <Button size="sm" onClick={this.refreshKey} disabled={this.state.locked}>
+                        <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                        {btnText}
+                        </Button>
+                </Form>
+            )
+        }
+    }
+
 
     render() {
         const theme = this.props.theme;
@@ -109,28 +163,7 @@ class Password extends Component {
                     <Col xs="12">{this.props.title}</Col>
                 </Row>
 
-                <Button size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">変更・再設定</Button>
-
-                <Collapse isOpen={this.state.collapse}>
-                    <Form>
-                        {this.renderForm()}
-
-                        <FormGroup>
-                            <Label for="nftId">トークンID</Label>
-                            <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="トークンID" />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="passWord">新しいパスワード</Label>
-                            <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder="新しいパスワード" />
-                        </FormGroup>
-
-                        <Button size="sm" onClick={this.refreshKey} disabled={this.state.locked}>
-                            <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
-                            変更
-                        </Button>
-                    </Form>
-                </Collapse>
+                {this.renderCollapse()}
             </Col>
         );
     }
@@ -140,7 +173,12 @@ Password.defaultProps = {
     theme: THEME.DARK,
     appName: "PCS_APP",
     symbol: "",
-    title: "🔑 パスワード変更・再設定・復元"
+    title: "🔑 パスワード変更・再設定・復元",
+    formTitle1: "トークンID",
+    formTitle2: "新しいパスワード",
+    btnText: "変更",
+    useCollapse: false,
+    collapseBtnText: "変更・再設定"
 };
 
 export default Password;
