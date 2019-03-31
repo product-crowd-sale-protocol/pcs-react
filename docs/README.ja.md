@@ -27,6 +27,7 @@ git clone https://github.com/product-crowd-sale-protocol/pcs-react.git
 cd pcs-react
 
 yarn install // install dependencies
+yarn install react@16.6.1 react-dom@16.6.1 react-scripts@2.1.1 // install peer-dependencies
 yarn build // build package using webpack and babel
 yarn link // link this package with local yarn
 ```
