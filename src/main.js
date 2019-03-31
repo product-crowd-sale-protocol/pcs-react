@@ -1,6 +1,5 @@
 export Setting from "./Setting/Setting";
 export Password from "./Setting/Password";
-export Scatter from "./Setting/Scatter";
 export Transfer from "./Setting/Transfer";
 export { THEME } from "./scripts/Theme";
 export { EOS_NETWORK } from "./pcs-js-eos/util/network";

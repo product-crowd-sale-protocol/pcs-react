@@ -1,7 +1,7 @@
 ## 🔧 Setting
 
 PCSプロトコルの設定周りに関するコンポーネントです。
-PCSトークンの送信を行うTransfer、PCSトークンのパスワード復元・変更を行うPassword、Scatterのログイン管理をするScatterの三つのコンポーネントと、それを一つにまとめたSettingコンポーネントの合計4つのコンポーネントからなります。
+PCSトークンの送信を行うTransfer、PCSトークンのパスワード復元・変更を行うPasswordの2つのコンポーネントと、それを1つにまとめたSettingコンポーネントの合計3つのコンポーネントからなります。
 
 ### 💸 Transfer
 
@@ -39,25 +39,9 @@ import { Password, EOS_NETWORK } from "pcs-react"
 <Password network={EOS_NETWORK.kylin.asia} />
 ```
 
-### ⛓ Scatter
-
-EOSの署名生成クライアントのScatterのログイン管理をするためのコンポーネントです。
-
-コンポーネントに渡す引数には
-
-- appName(任意) Scatterに表示されるアプリケーション名 指定しない場合はデフォルト値のPCS_APPとなります。
-- theme(任意) コンポーネントのデザインテーマ THEMEをインポートしてDARK か WHITEのどちらかから選択してください。　指定しない場合はデフォルト値のDARKになります
-- network(**必須**) 利用するEOSノードの情報をまとめたオブジェクトです。EOS_NETWORKをインポートして利用するネットワークを選択してください。
-
-```
-import { Scatter, THEME, EOS_NETWORK } from "pcs-react"
-
-<Scatter theme={THEME.WHITE} appName={"PCS_SCATTER"} network={EOS_NETWORK.main.lions} />
-```
-
 ### 🔨 Setting
 
-PCSトークンの送信を行うTransfer、PCSトークンのパスワード復元・変更を行うPassword、Scatterのログイン管理をするScatterの三つのコンポーネントをまとめたコンポーネントです。
+PCSトークンの送信を行うTransfer、PCSトークンのパスワード復元・変更を行うPassword、2つのコンポーネントをまとめたコンポーネントです。
 
 コンポーネントに渡す引数には
 

@@ -125,11 +125,11 @@ class ContracedChart extends Component {
             <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " my-2"}>
                 <Row>
 
+                    <Col xs="12">{"📈 約定価格"}</Col>
+
                     <Col xs="12">
-                        <h5>{"📈 約定価格"}</h5>
                         <Form>
                             <FormGroup>
-                                <Label for="contractedOrderTimeScale">チャートの範囲</Label>
                                 <Input type="select" name="contractedOrderTimeScale" onChange={this.handleChange} value={this.state.contractedOrderTimeScale}>
                                     <option value={1440}>1日以内</option>
                                     <option value={1440 * 3}>3日以内</option>
