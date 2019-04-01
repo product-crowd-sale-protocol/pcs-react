@@ -12,7 +12,7 @@ import "../../style/Dark.css";
 import "../../style/White.css";
 import "../../style/bootstrap.min.css";
 import { THEME } from "../../scripts/Theme";
-import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
+import { PcsDex, ScatterError } from "pcs-js-eos";
 
 // LobbyのDexページの売買フォームを担う
 class DexForm extends Component {

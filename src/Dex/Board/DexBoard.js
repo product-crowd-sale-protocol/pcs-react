@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 import { Col, Row, Table } from 'reactstrap';
+import { getTable, EOS_NETWORK } from "pcs-js-eos";
 import { asyncMap } from "../../scripts/Util";
-import { getTable, EOS_NETWORK } from "../../pcs-js-eos/main";
 import "./DexBoard.css";
 import "../../style/App.css";
 import "../../style/Dark.css";

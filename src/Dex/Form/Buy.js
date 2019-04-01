@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
+import { PcsDex, ScatterError } from "pcs-js-eos";
 import { checkUint } from "../../scripts/Util";
 
 // 新規買い注文と売り板から買う機能
