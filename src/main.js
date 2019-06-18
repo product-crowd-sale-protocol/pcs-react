@@ -1,4 +1,3 @@
-export Setting from "./Setting/Setting";
 export Password from "./Setting/Password";
 export Transfer from "./Setting/Transfer";
 export Dex from "./Dex/Dex";

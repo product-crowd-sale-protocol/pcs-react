@@ -1,6 +1,5 @@
-```
-import { Chart } from "pcs-react"
-import { PcsClient } from "pcs-js-eos"
+```Javascript
+import { Chart, networkList } from "pcs-react"
 
-<Chart symbol={"PCS_SYMBOL"} network={PcsClient.networkList.kylin.asia} />
+<Chart symbol={"PCS_SYMBOL"} network={networkList.kylin.asia} />
 ```

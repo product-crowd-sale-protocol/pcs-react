@@ -1,6 +1,5 @@
-```
-import { DexBoard, THEME } from "pcs-react"
-import { PcsClient } from "pcs-js-eos"
+```Javascript
+import { DexBoard, networkList } from "pcs-react"
 
-<DexBoard symbol={"PCS_SYMBOL"} appName={"appName"} network={PcsClient.networkList.kylin.asia} />
+<DexBoard symbol={"PCS_SYMBOL"} appName={"YOUR_APP_NAME"} network={networkList.main.scatter} />
 ```

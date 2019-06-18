@@ -1,6 +1,6 @@
 # 📦 pcs-react
 
-PCSプロトコルの使ったアプリの埋め込み用のReact Componentです。
+PCSプロトコルを使ったアプリの埋め込み用のReact Componentです。
 
 # 🔧 Usage
 

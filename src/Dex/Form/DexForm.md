@@ -1,10 +1,9 @@
-```
-import { DexForm } from "pcs-react"
-import { PcsClient } from "pcs-js-eos"
+```Javascript
+import { DexForm, networkList } from "pcs-react";
 
 <DexForm
     symbol={"PCS_SYMBOL"}
-    network={PcsClient.networkList.kylin.asia}
+    network={networkList.kylin.asia}
     appName={"YOUR_APP_NAME"}
 />
 ```
