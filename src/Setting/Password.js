@@ -1,36 +1,37 @@
-import React, { Component } from "react";
-import { Collapse, Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PcsClient, PcsSignature } from "../pcs-js-eos/main";
-import "../style/App.css";
-import "../style/Dark.css";
-import "../style/White.css";
-import "../style/bootstrap.min.css";
-import { THEME } from "../scripts/Theme";
+import React, { PureComponent } from "react";
+import { Col, Button, Form, FormGroup, Label, Input, Row } from "reactstrap";
+import { PcsClient, PcsSignature } from "pcs-js-eos";
+import { handleError } from "../scripts/errorHandle";
 import { AGENT_NAME } from "../scripts/Config";
+import PasswordModal from "./PasswordModal";
 
-class Password extends Component {
+class Password extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.pcs = new PcsClient(this.props.network, this.props.appName);
+
         this.state = {
-            collapse: false,
-            locked: false,
-            symbol: this.props.symbol,
+            locked: true,
+            symbol: "",
             nftId: "",
-            passWord: "",
-            loading: "none"
+            newPassWord: "",
+            toggleVisibility: false, /// password を見える状態にするか否か
+            owner: "",
+            loading: "none",
+            // agent only
+            agentFlug: false,
+            modal: false
         };
 
-        this.toggle = this.toggle.bind(this);
         this.lockBtn = this.lockBtn.bind(this);
         this.unlockBtn = this.unlockBtn.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleModal = this.handleModal.bind(this);
         this.refreshKey = this.refreshKey.bind(this);
-        this.renderForm = this.renderForm.bind(this);
-    }
-
-    toggle() {
-        this.setState({ collapse: !this.state.collapse });
+        this.fetchOwner = this.fetchOwner.bind(this);
+        this.renderOwner = this.renderOwner.bind(this);
+        this.renderBtn = this.renderBtn.bind(this);
     }
 
     lockBtn() {
@@ -54,44 +55,47 @@ class Password extends Component {
         });
     }
 
-    // パスワードを変更する
-    async refreshKey() {
-        const network = this.props.network;
-        this.lockBtn();
-        let pcs = new PcsClient(network, this.props.appName);
-
-        const symbol = this.state.symbol;
-        const subsig = new PcsSignature(network, symbol); // 必要なインスタンスの生成
-
-        const password = this.state.passWord;
-
-        // トークンIDを用いてEOSからトークンの所有者及び、subsig公開鍵を取得する
-        const nftId = this.state.nftId;
-        const { account, subkey } = await subsig.getEOSAuth(nftId);
-
-        let res = false;
-        if (account === AGENT_NAME) {
-            // 代理人
-            res = await pcs.refreshKey(password, symbol, nftId, true);
-        } else {
-            // Scatter
-            res = await pcs.refreshKey(password, symbol, nftId);
-        }
-        this.unlockBtn();
-        if (res) {
-            return window.alert("パスワードの変更に成功しました。");
-        } else {
-            return window.alert("パスワードの変更に失敗しました。");
+    handleModal(action, password) {
+        this.setState({
+            modal: !this.state.modal
+        });
+        if (action === "submit") {
+            this.refreshKey(password, null);
         }
     }
 
-    renderForm() {
-        if (this.props.symbol === "") {
+    async fetchOwner() {
+        if ((this.state.symbol !== "") && (this.state.nftId !== "")) {
+            try {
+                const locked = (this.state.loading === "inline-block") ? true : false;
+                const owner = (await this.pcs.fetchTokenInfo(this.state.symbol, this.state.nftId)).owner;
+                const agentFlug = (owner === AGENT_NAME);
+                this.setState({ locked, owner, agentFlug });
+            } catch (error) {
+                if (error instanceof ReferenceError) {
+                    const locked = true;
+                    const owner = "入力されたシンボル・IDに対応するトークンが見つかりません。";
+                    const agentFlug = false;
+                    this.setState({ locked, owner, agentFlug });
+                }
+            }
+        } else {
+            const locked = true;
+            const owner = "";
+            const agentFlug = false;
+            this.setState({ locked, owner, agentFlug });
+        }
+    }
+
+    // トークンの持ち主が存在するかしないか、代理人であるかによって処理が変わる
+    renderOwner() {
+        if (this.state.owner === AGENT_NAME) {
             return (
-                <FormGroup>
-                    <Label for="symbol">コミュニティ名</Label>
-                    <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
-                </FormGroup>
+                <React.Fragment>トークンの所有者: 代理人</React.Fragment>
+            )
+        } else if (this.state.owner !== "") {
+            return (
+                <React.Fragment>トークンの所有者: {this.state.owner}</React.Fragment>
             )
         } else {
             return (
@@ -100,85 +104,124 @@ class Password extends Component {
         }
     }
 
-    renderCollapse() {
-        const formTitle1 = this.props.formTitle1;
-        const formTitle2 = this.props.formTitle2;
-        const btnText = this.props.btnText;
-        if (this.props.useCollapse) {
+    // トークンの持ち主によってレンダリングするボタンを変えるメソッド
+    renderBtn() {
+        if (this.state.agentFlug) {
             return (
-                <React.Fragment>
-                    <Button size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">{this.props.collapseBtnText}</Button>
-                    <Collapse isOpen={this.state.collapse}>
-                        <Form>
-                            {this.renderForm()}
-
-                            <FormGroup>
-                                <Label for="nftId">{formTitle1}</Label>
-                                <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder={formTitle1} />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label for="passWord">{formTitle2}</Label>
-                                <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder={formTitle2} />
-                            </FormGroup>
-
-                            <Button size="sm" onClick={this.refreshKey} disabled={this.state.locked}>
-                                <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
-                                {btnText}
-                        </Button>
-                        </Form>
-                    </Collapse>
-                </React.Fragment>
+                <Button size="sm" onClick={(() => {
+                    let session = sessionStorage.getItem(this.state.symbol)
+                    if (session) {
+                        let privateKey = (JSON.parse(session)).privateKey;
+                        this.refreshKey(null, privateKey);
+                    } else {
+                        this.setState({ modal: true });
+                    }
+                })} disabled={this.state.locked}>
+                    <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                    代理人を用いて変更
+                </Button>
             )
         } else {
             return (
-                <Form>
-                    {this.renderForm()}
-
-                    <FormGroup>
-                        <Label for="nftId">{formTitle1}</Label>
-                        <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder={formTitle1} />
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label for="passWord">{formTitle2}</Label>
-                        <Input type="password" name="passWord" onChange={this.handleChange} value={this.state.passWord} placeholder={formTitle2} />
-                    </FormGroup>
-
-                    <Button size="sm" onClick={this.refreshKey} disabled={this.state.locked}>
-                        <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
-                        {btnText}
-                        </Button>
-                </Form>
+                <Button size="sm" onClick={(() => { this.refreshKey() })} disabled={this.state.locked}>
+                    <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                    変更
+                </Button>
             )
         }
     }
 
+    /**
+     * パスワードを変更する
+     *     passwordは、現在のsubsigのパスワードを入れるところ nullでないならば代理人が、nullならばuserがScatterで実行
+     * @param {string} password 現在のsubsigのパスワード
+     */
+    async refreshKey(password = null, privateKey = null) {
+        this.lockBtn();
+        // 入力内容
+        const symbol = this.state.symbol;
+        const nftId = this.state.nftId;
+        const newPassWord = this.state.newPassWord;
+
+        try {
+            if (privateKey) {
+                // sessionストレージにprivateキーが残っていた場合
+                window.alert("パスワードを変更します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。");
+                await this.pcs.refreshKeyByAgent(privateKey, newPassWord, symbol, nftId); // 代理人
+            } else if (password) {
+                window.alert("パスワードを変更します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。");
+                const subsig = new PcsSignature(this.props.network, symbol);
+                const keyPair = await subsig.genKeyPair(nftId, password);
+                await this.pcs.refreshKeyByAgent(keyPair.privateKey, newPassWord, symbol, nftId); // 代理人
+            } else {
+                await this.pcs.refreshKey(newPassWord, symbol, nftId, false); // Scatter
+            }
+        } catch (error) {
+            this.unlockBtn();
+            const msg = handleError(error);
+            if (msg) {
+                return window.alert(msg);
+            } else {
+                console.error(error);
+                return window.alert("パスワードの変更に失敗しました。");
+            }
+        }
+
+        this.setState({
+            locked: false,
+            symbol: "",
+            nftId: "",
+            newPassWord: "",
+            loading: "none",
+            owner: "",
+            agentFlug: false
+        });
+        return window.alert("パスワードの変更に成功しました。");
+    }
+
+    componentDidUpdate() {
+        this.fetchOwner();
+    }
 
     render() {
-        const theme = this.props.theme;
         return (
-            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 normal-shadow border-special"}>
-                <Row>
-                    <Col xs="12">{this.props.title}</Col>
-                </Row>
+            <React.Fragment>
+                <Form>
+                    <Row form className="mb-2">
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label for="symbol">コミュニティ名</Label>
+                                <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label for="nftId">トークンID</Label>
+                                <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="トークンID" />
+                            </FormGroup>
+                        </Col>
+                        <Col md={12}>
+                            {this.renderOwner()}
+                        </Col>
+                    </Row>
 
-                {this.renderCollapse()}
-            </Col>
+                    <FormGroup>
+                        <Label for="newPassWord">新しいパスワード</Label>
+                        <Input type={this.state.toggleVisibility ? "text" : "password"} name="newPassWord" onChange={this.handleChange} value={this.state.newPassWord} placeholder="新しいパスワード" />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Button size="sm" color="secondary" name="toggle-visibility" onClick={() => { this.setState({ ...this.state, toggleVisibility: !this.state.toggleVisibility }) }}>
+                            {this.state.toggleVisibility ? "パスワードを隠す" : "パスワードを確認する"}
+                        </Button>
+                    </FormGroup>
+                    {this.renderBtn()}
+                </Form>
+
+                <PasswordModal modal={this.state.modal} onUpdate={this.handleModal} />
+            </React.Fragment>
         );
     }
 }
-
-Password.defaultProps = {
-    theme: THEME.DARK,
-    appName: "PCS_APP",
-    symbol: "",
-    title: "🔑 パスワード変更・再設定・復元",
-    formTitle1: "トークンID",
-    formTitle2: "新しいパスワード",
-    btnText: "変更",
-    useCollapse: false,
-    collapseBtnText: "変更・再設定"
-};
 
 export default Password;

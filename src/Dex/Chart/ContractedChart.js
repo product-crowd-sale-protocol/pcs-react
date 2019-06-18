@@ -1,11 +1,10 @@
 'use strict'
 
 import React, { Component } from "react";
-import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Row, Form, FormGroup, Input } from 'reactstrap';
 import LineChart from './LineChart';
-import { PcsSignature, EOS_NETWORK } from "../../pcs-js-eos/main"
+import { PcsSignature } from "pcs-js-eos"
 import Aws from "../../scripts/Aws";
-import { THEME } from "../../scripts/Theme";
 
 // Contracted Chart Componet
 class ContracedChart extends Component {
@@ -14,7 +13,6 @@ class ContracedChart extends Component {
         super(props);
 
         this.timer = null;
-        this.network = EOS_NETWORK.kylin.asia;
         this.state = {
             contractedOrderTimeScale: 1440,
             contractedOrderData: null,
@@ -55,14 +53,13 @@ class ContracedChart extends Component {
     async getContractedOrderChart() {
         // チャートにデータベースから受け取った点を描画する
         const symbol = this.props.symbol;
-        const subsig = new PcsSignature(this.network, symbol); // 必要なインスタンスの生成
-
-        const { signature, subkey } = await subsig.getSigAndSubkey();
+        const subsig = new PcsSignature(this.props.network, symbol); // 必要なインスタンスの生成
+        const { id, signature } = subsig.getLocalAuth();
 
         const now = (new Date()).getTime();
         const begin = now - this.state.contractedOrderTimeScale * 60 * 1000;
         const end = now;
-        const latestData = await Aws.getContractedOrder(symbol, signature, subkey, symbol, null, end);
+        const latestData = await Aws.getContractedOrder(symbol, signature, id, symbol, null, end, this.props.network);
 
         this.setState({
             contractedOrderData: latestData,
@@ -75,11 +72,10 @@ class ContracedChart extends Component {
     async updateContractedOrderChart() {
         // 最新のデータを取得
         const symbol = this.props.symbol;
-        const subsig = new PcsSignature(this.network, symbol);
+        const subsig = new PcsSignature(this.props.network, symbol);
 
-        const { signature, subkey } = await subsig.getSigAndSubkey();
-
-        const latestData = await Aws.getContractedOrder(symbol, signature, subkey, symbol, this.state.contractedOrderTimeEnd, null);
+        const { id, signature } = subsig.getLocalAuth();
+        const latestData = await Aws.getContractedOrder(symbol, signature, id, symbol, this.state.contractedOrderTimeEnd, null, this.props.network);
 
         // 現在のチャートデータを取得
         let data = this.state.contractedOrderData;
@@ -107,7 +103,6 @@ class ContracedChart extends Component {
     }
 
     render() {
-        const theme = this.props.theme;
         const contractedOrderData = this.state.contractedOrderData;
         const contractedOrderTimeRange = [this.state.contractedOrderTimeBegin, this.state.contractedOrderTimeEnd];
         const contractedOrderConfig = {
@@ -119,10 +114,8 @@ class ContracedChart extends Component {
             curveCompletion: "curveStepBefore",
         };
 
-        const tick_color = (theme === THEME.DARK) ? "white" : "black";
-
         return (
-            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " my-2"}>
+            <Col xs="12" className={"my-2"}>
                 <Row>
 
                     <Col xs="12">{"📈 約定価格"}</Col>
@@ -142,7 +135,7 @@ class ContracedChart extends Component {
 
                     {/* 約定価格 */}
                     <Col xs="12" className="line-blue">
-                        <LineChart config={[contractedOrderConfig]} timeRange={contractedOrderTimeRange} tickColor={tick_color} />
+                        <LineChart config={[contractedOrderConfig]} timeRange={contractedOrderTimeRange} />
                     </Col>
 
                 </Row>

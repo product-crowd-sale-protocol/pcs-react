@@ -5,8 +5,6 @@ import TweetEmbed from 'react-tweet-embed';
 import * as d3 from 'd3';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import "../../style/App.css";
-import "../../style/Dark.css";
-import "../../style/White.css";
 
 // チャート描画用のコンポーネント
 class LineChart extends Component {
@@ -88,7 +86,7 @@ class LineChart extends Component {
         const time_range = this.props.timeRange;
 
         const ticks = this.tickTimes(time_range);
-        const tick_color = this.props.tickColor;
+        const tick_color = "black";
 
         const x = d3.scaleTime()
             .domain(time_range)
@@ -240,7 +238,7 @@ class Axis extends Component {
             tick_values = [],
             tick_format = null,
             tick_size = 6,
-            tick_color = "white",
+            tick_color = "black",
             font_size = 16,
         } = config;
 

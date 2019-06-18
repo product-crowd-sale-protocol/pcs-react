@@ -1,36 +1,35 @@
-import React, { Component } from "react";
-import { Collapse, Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { PcsClient, PcsSignature } from "../pcs-js-eos/main";
-import "../style/App.css";
-import "../style/Dark.css";
-import "../style/White.css";
-import "../style/bootstrap.min.css";
-import { THEME } from "../scripts/Theme";
+import React, { PureComponent } from "react";
+import { Col, Button, Form, FormGroup, Label, Input, Row } from "reactstrap";
+import { PcsClient, PcsSignature } from "pcs-js-eos";
+import { handleError } from "../scripts/errorHandle";
 import { AGENT_NAME } from "../scripts/Config";
+import PasswordModal from "./PasswordModal";
 
-class Transfer extends Component {
+class Transfer extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.pcs = new PcsClient(this.props.network, this.props.appName);
+
         this.state = {
-            collapse: false,
             locked: false,
-            symbol: this.props.symbol,
+            symbol: "",
             nftId: "",
             recipient: "",
-            loading: "none"
+            loading: "none",
+            owner: "",
+            agentFlug: false,
+            modal: false
         };
 
-        this.toggle = this.toggle.bind(this);
         this.lockBtn = this.lockBtn.bind(this);
         this.unlockBtn = this.unlockBtn.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleModal = this.handleModal.bind(this);
+        this.fetchOwner = this.fetchOwner.bind(this);
+        this.renderOwner = this.renderOwner.bind(this);
+        this.renderBtn = this.renderBtn.bind(this);
         this.transfer = this.transfer.bind(this);
-        this.renderForm = this.renderForm.bind(this);
-    }
-
-    toggle() {
-        this.setState({ collapse: !this.state.collapse });
     }
 
     lockBtn() {
@@ -54,47 +53,52 @@ class Transfer extends Component {
         });
     }
 
-    // トークン送信する
-    async transfer() {
-        this.lockBtn();
-        const network = this.props.network;
-        let pcs = new PcsClient(network, this.props.appName);
-        const symbol = this.state.symbol;
-        const subsig = new PcsSignature(network, symbol);
-        const nftId = this.state.nftId;
-        const { account } = await subsig.getEOSAuth(nftId);
-
-        let res = false;
-        const recipient = this.state.recipient;
-        if (account === AGENT_NAME) {
-            res = await pcs.transferById(recipient, symbol, nftId, true);
-        } else {
-            res = await pcs.transferById(recipient, symbol, nftId);
-        }
-        this.unlockBtn();
-        if (res) {
-            window.alert("トークンの送信に成功しました。");
-        } else {
-            return window.alert("ScatterもしくはEOSもしくは代理人サーバーの内部エラーにより、トークンの送信に失敗しました。トークンの所有権には問題はありません。");
-        }
-
+    handleModal(action, password) {
         this.setState({
-            collapse: false,
-            locked: false,
-            symbol: "",
-            nftId: "",
-            recipient: "",
-            loading: "none"
+            modal: !this.state.modal
         });
+        if (action === "submit") {
+            this.transfer(password, null);
+        }
     }
 
-    renderForm() {
-        if (this.props.symbol === "") {
+    async fetchOwner() {
+        if ((this.state.symbol !== "") && (this.state.nftId !== "")) {
+            try {
+                const res = await this.pcs.fetchTokenInfo(this.state.symbol, this.state.nftId);
+                const locked = (this.state.loading === "inline-block") ? true : false;
+                const owner = res.owner;
+                const agentFlug = (owner === AGENT_NAME);
+                this.setState({ locked, owner, agentFlug });
+            } catch (error) {
+                if (error instanceof ReferenceError) {
+                    const locked = true;
+                    const owner = "入力されたシンボル・IDに対応するトークンが見つかりません。";
+                    const agentFlug = false;
+                    this.setState({ locked, owner, agentFlug });
+                }
+            }
+        } else {
+            const locked = true;
+            const owner = "";
+            const agentFlug = false;
+            this.setState({ locked, owner, agentFlug });
+        }
+    }
+
+    // トークンの持ち主が存在するかしないか、代理人であるかによって処理が変わる
+    renderOwner() {
+        if (this.state.owner === AGENT_NAME) {
             return (
-                <FormGroup>
-                    <Label for="symbol">コミュニティ名</Label>
-                    <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
-                </FormGroup>
+                <React.Fragment>
+                    トークンの所有者: 代理人
+                </React.Fragment>
+            )
+        } else if (this.state.owner !== "") {
+            return (
+                <React.Fragment>
+                    トークンの所有者: {this.state.owner}
+                </React.Fragment>
             )
         } else {
             return (
@@ -103,46 +107,116 @@ class Transfer extends Component {
         }
     }
 
+    // トークンの持ち主によってレンダリングするボタンを変えるメソッド
+    renderBtn() {
+        if (this.state.agentFlug) {
+            return (
+                <Button size="sm" onClick={(() => {
+                    let session = sessionStorage.getItem(this.state.symbol)
+                    if (session) {
+                        let privateKey = (JSON.parse(session)).privateKey;
+                        this.transfer(null, privateKey);
+                    } else {
+                        this.setState({ modal: true });
+                    }
+                })} disabled={this.state.locked}>
+                    <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                    代理人を用いて送信
+                </Button>
+            )
+        } else {
+            return (
+                <Button size="sm" onClick={(() => { this.transfer() })} disabled={this.state.locked}>
+                    <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
+                    送信
+                </Button>
+            )
+        }
+    }
+
+    // トークン送信する
+    async transfer(password = null, privateKey = null) {
+        this.lockBtn();
+
+        const symbol = this.state.symbol;
+        const nftId = this.state.nftId;
+        const recipient = this.state.recipient;
+
+        try {
+            if (privateKey) {
+                // sessionストレージにprivateキーが残っていた場合
+                window.alert("パスワードを変更します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。");
+                await this.pcs.transferByIdByAgent(privateKey, recipient, symbol, nftId); // 代理人
+            } else if (password) {
+                const subsig = new PcsSignature(this.props.network, symbol);
+                const keyPair = await subsig.genKeyPair(nftId, password);
+                window.alert(recipient + "に送信を開始します。10秒ほど時間がかかります。これを閉じるとスタートしますので、問題がある場合はリロードして下さい。");
+                await this.pcs.transferByIdByAgent(keyPair.privateKey, recipient, symbol, nftId); // 代理人
+            } else {
+                await this.pcs.transferById(recipient, symbol, nftId); // Scatter
+            }
+        } catch (error) {
+            this.unlockBtn();
+            const msg = handleError(error);
+            if (msg) {
+                return window.alert(msg);
+            } else {
+                console.error(error);
+                return window.alert("ScatterもしくはEOSの内部エラーにより、トークンの送信に失敗しました。トークンの所有権には問題はありません。");
+            }
+        }
+
+        this.setState({
+            collapse: false,
+            locked: false,
+            symbol: "",
+            nftId: "",
+            recipient: "",
+            loading: "none",
+            owner: "",
+            agentFlug: false
+        });
+        return window.alert("トークンの送信に成功しました。");
+    }
+
+    componentDidUpdate() {
+        this.fetchOwner();
+    }
+
     render() {
-        const theme = this.props.theme;
         return (
-            <Col xs="12" className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " p-3 normal-shadow border-special"}>
-                <Row>
-                    <Col xs="12">{this.props.title}</Col>
-                </Row>
+            <React.Fragment>
+                <Form>
+                    <Row form className="mb-2">
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label for="symbol">コミュニティ名</Label>
+                                <Input type="text" name="symbol" onChange={this.handleChange} value={this.state.symbol} placeholder="コミュニティ名" />
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label for="nftId">トークンID</Label>
+                                <Input type="number" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="トークンID" />
+                            </FormGroup>
+                        </Col>
+                        <Col md={12}>
+                            {this.renderOwner()}
+                        </Col>
+                    </Row>
 
-                <Button size="sm" onClick={this.toggle} style={{ marginBottom: '1rem' }} className="my-2">トークンを送信する</Button>
+                    <FormGroup>
+                        <Label for="recipient">送り先</Label>
+                        <Input type="text" name="recipient" onChange={this.handleChange} value={this.state.recipient} placeholder="送信先" />
+                    </FormGroup>
 
-                <Collapse isOpen={this.state.collapse}>
-                    <Form>
-                        {this.renderForm()}
+                    {this.renderBtn()}
+                </Form>
 
-                        <FormGroup>
-                            <Label for="nftId">トークンID</Label>
-                            <Input type="text" name="nftId" onChange={this.handleChange} value={this.state.nftId} placeholder="トークンID" />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label for="recipient">送り先</Label>
-                            <Input type="text" name="recipient" onChange={this.handleChange} value={this.state.recipient} placeholder="送信先" />
-                        </FormGroup>
-
-                        <Button size="sm" onClick={this.transfer} disabled={this.state.locked}>
-                            <span className="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true" style={{ display: this.state.loading }} ></span>
-                            送信
-                        </Button>
-                    </Form>
-                </Collapse>
-            </Col>
+                <PasswordModal modal={this.state.modal} onUpdate={this.handleModal} />
+            </React.Fragment>
         );
     }
 }
-
-Transfer.defaultProps = {
-    theme: THEME.DARK,
-    appName: "PCS_APP",
-    symbol: "",
-    title: "💸 トークン送信"
-};
 
 export default Transfer;

@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
+import { PcsClient, ScatterError } from "pcs-js-eos";
 import { checkUint } from "../../scripts/Util";
 
 // 新規買い注文と売り板から買う機能
@@ -53,11 +53,11 @@ class Buy extends Component {
     // price 買いたい価格
     async createBuyOrder(price) {
         const symbol = this.props.symbol;
-        let dex = new PcsDex(this.network, this.props.appName);
+        let pcs = new PcsClient(this.network, this.props.appName);
 
         this.lockBtn();
         try {
-            await dex.addBuyOrder(symbol, price);
+            await pcs.addBuyOrder(symbol, price);
         }
         catch (error) {
             this.unlockBtn();
@@ -85,11 +85,11 @@ class Buy extends Component {
         }
 
         const symbol = this.props.symbol;
-        let dex = new PcsDex(this.network, this.props.appName);
+        let pcs = new PcsClient(this.network, this.props.appName);
         this.lockBtn();
 
         try {
-            await dex.buyFromOrder(symbol, targetId);
+            await pcs.buyFromOrder(symbol, targetId);
             this.unlockBtn();
             return window.alert("トークンを購入しました。");
         }

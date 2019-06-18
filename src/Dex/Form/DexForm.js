@@ -8,11 +8,8 @@ import Buy from "./Buy";
 import Sell from "./Sell";
 import Order from "./Order";
 import "../../style/App.css";
-import "../../style/Dark.css";
-import "../../style/White.css";
 import "../../style/bootstrap.min.css";
-import { THEME } from "../../scripts/Theme";
-import { PcsDex, ScatterError } from "../../pcs-js-eos/main";
+import { PcsClient, ScatterError } from "pcs-js-eos";
 
 // LobbyのDexページの売買フォームを担う
 class DexForm extends Component {
@@ -21,8 +18,7 @@ class DexForm extends Component {
         super(props);
 
         this.network = this.props.network;
-        console.log(this.props.appName);
-        this.dex = new PcsDex(this.network, this.props.appName);
+        this.dex = new PcsClient(this.props.network, this.props.appName);
         this.state = {
             activeTab: "buy",
             account: ""
@@ -63,12 +59,11 @@ class DexForm extends Component {
 
     render() {
         const symbol = this.props.symbol;
-        const theme = this.props.theme;
         const network = this.props.network;
         const appName = this.props.appName;
         const account = this.state.account;
         return (
-            <div id="dex-form" className={(theme === THEME.DARK) ? "dark-mode" : "white-mode"}>
+            <div id="dex-form">
                 <Nav tabs>
 
                     <NavItem>

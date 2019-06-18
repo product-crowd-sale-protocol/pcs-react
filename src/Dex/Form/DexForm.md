@@ -1,9 +1,10 @@
 ```
-import { DexForm, THEME } from "pcs-react"
+import { DexForm } from "pcs-react"
+import { PcsClient } from "pcs-js-eos"
 
 <DexForm
     symbol={"PCS_SYMBOL"}
-    theme={THEME.DARK}
+    network={PcsClient.networkList.kylin.asia}
     appName={"YOUR_APP_NAME"}
 />
 ```

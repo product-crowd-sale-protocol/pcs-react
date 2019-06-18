@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, EOS_NETWORK, ScatterError } from "../../pcs-js-eos/main";
+import { PcsClient, ScatterError } from "pcs-js-eos";
 import { checkUint, checkUnsigned } from "../../scripts/Util";
 
 // 新規売り注文と買い板から買う機能
@@ -56,14 +56,14 @@ class Sell extends Component {
         }
 
         const symbol = this.props.symbol;
-        let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, this.props.appName);
+        const network = this.props.network;
+        const pcs = new PcsClient(network, this.props.appName);
 
         // ユーザーの認証情報からScatterのアカウント と 売ろうとしているアカウントの名前が等しいことを確認する
         this.lockBtn();
 
         try {
-            await dex.addSellOrderByid(symbol, sellTargetId, price);
+            await pcs.addSellOrderByid(symbol, sellTargetId, price);
         }
         catch (error) {
             this.unlockBtn();
@@ -93,13 +93,13 @@ class Sell extends Component {
             return window.alert("uint type only");
         }
         const symbol = this.props.symbol;
-        let network = EOS_NETWORK.kylin.asia;
-        let dex = new PcsDex(network, this.props.appName);
+        let network = this.props.network;
+        let pcs = new PcsClient(network, this.props.appName);
 
         this.lockBtn();
 
         try {
-            await dex.sellToBuyOrder(symbol, sellTargetId, buyOrderId);
+            await pcs.sellToBuyOrder(symbol, sellTargetId, buyOrderId);
         }
         catch (error) {
             this.unlockBtn();

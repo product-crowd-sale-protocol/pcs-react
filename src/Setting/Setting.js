@@ -3,10 +3,7 @@ import { Container, Col, Row } from "reactstrap";
 import Password from "./Password";
 import Transfer from "./Transfer";
 import "../style/App.css";
-import "../style/Dark.css";
-import "../style/White.css";
 import "../style/bootstrap.min.css";
-import { THEME } from "../scripts/Theme";
 
 class Setting extends Component {
 
@@ -25,24 +22,22 @@ class Setting extends Component {
     }
 
     render() {
-        const theme = this.props.theme;
         const appName = this.props.appName;
-        const symbol = this.props.symbol;
         const network = this.props.network;
         const title = this.props.title;
         return (
-            <div className={((theme === THEME.DARK) ? "dark-mode" : "white-mode") + " setting p-2"}>
+            <div className="setting p-2">
                 <Container>
                     <Row>
                         <div>
                             {this.renderTitle(title)}
                         </div>
 
-                        <Password theme={theme} appName={appName} symbol={symbol} network={network} />
+                        <Password appName={appName} network={network} />
 
                         <Col xs="12" className="my-2"></Col>
 
-                        <Transfer theme={theme} appName={appName} symbol={symbol} network={network} />
+                        <Transfer appName={appName} network={network} />
                     </Row>
                 </Container>
             </div>
@@ -51,7 +46,6 @@ class Setting extends Component {
 }
 
 Setting.defaultProps = {
-    theme: THEME.DARK,
     appName: "PCS_APP",
     symbol: "",
     title: "🔧 Setting 🔨"

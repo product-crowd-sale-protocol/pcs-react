@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { PcsDex, getTable } from "../../pcs-js-eos/main";
+import { PcsClient, ScatterError } from "pcs-js-eos";
 import { asyncAll, checkUint } from "../../scripts/Util";
 import { CONTRACT_NAME } from "../../scripts/Config";
 
@@ -14,7 +14,7 @@ class Order extends Component {
 
         this.timer = null;
         this.network = this.props.network;
-        this.dex = new PcsDex(this.network, this.props.appName);
+        this.pcs = new PcsClient(this.network, this.props.appName);
         this.state = {
             format: "buyOrder",
             buyOrder: [],
@@ -105,7 +105,7 @@ class Order extends Component {
             "lower_bound": accountName,
             "limit": 100
         };
-        const response = await getTable(this.network, query);
+        const response = await this.pcs.fetchTable(query);
         return response.rows.map((order) => { return order.id });
     }
 
@@ -124,7 +124,7 @@ class Order extends Component {
             "lower_bound": accountName,
             "limit": 100
         };
-        const response = await getTable(this.network, query);
+        const response = await this.pcs.fetchTable(query);
         return response.rows.map((order) => { return order.id });
     }
 
@@ -147,7 +147,7 @@ class Order extends Component {
             "upper_bound": buyOrderId,
             "limit": 1
         };
-        const result = await getTable(this.network, query);
+        const result = await this.pcs.fetchTable(query);
 
         if (result.rows.length === 0) {
             this.unlockBtn();
@@ -155,7 +155,7 @@ class Order extends Component {
         }
 
         try {
-            await this.dex.cancelBuyOrderById(symbol, buyOrderId);
+            await this.pcs.cancelBuyOrderById(symbol, buyOrderId);
         }
         catch (error) {
             this.unlockBtn();
@@ -198,7 +198,7 @@ class Order extends Component {
             "upper_bound": sellTargetId,
             "limit": 1
         };
-        const result = await getTable(this.network, query);
+        const result = await this.pcs.fetchTable(query);
 
         if (result.rows.length === 0) {
             this.unlockBtn();
@@ -206,7 +206,7 @@ class Order extends Component {
         }
 
         try {
-            await this.dex.cancelSellOrderById(symbol, sellTargetId);
+            await this.pcs.cancelSellOrderById(symbol, sellTargetId);
         }
         catch (error) {
             this.unlockBtn();
