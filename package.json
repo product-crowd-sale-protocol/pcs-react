@@ -37,7 +37,7 @@
     "classnames": "^2.2.6",
     "d3": "^5.7.0",
     "scatterjs-core": "^2.7.14",
-    "pcs-js-eos": "0.4.4"
+    "pcs-js-eos": "0.4.6"
   },
   "peerDependencies": {
     "react": "^16.6.1",
