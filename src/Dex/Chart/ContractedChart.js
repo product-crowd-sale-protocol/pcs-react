@@ -27,13 +27,14 @@ class ContracedChart extends Component {
     }
 
     handleChange(e) {
+        const targetName = e.target.name;
         this.setState({
-            [e.target.name]: Number(e.target.value)
+            [targetName]: Number(e.target.value)
+        }, () => {
+            if (targetName === "contractedOrderTimeScale") {
+                this.getContractedOrderChart();
+            }
         });
-
-        if (e.target.name === "contractedOrderTimeScale") {
-            this.getContractedOrderChart();
-        }
     }
 
     async componentDidMount() {
